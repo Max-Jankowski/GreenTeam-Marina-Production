@@ -1,5 +1,7 @@
 package com.moffatbaymarina.servlet;
 
+import com.moffatbaymarina.config.DatabaseConnection;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -8,15 +10,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 
 /**
  * Returns account, boat, slip, and electric information for the
@@ -27,37 +26,6 @@ import java.util.Properties;
  */
 @WebServlet("/account-info")
 public class AccountInfoServlet extends HttpServlet {
-
-    private Properties dbProperties;
-
-    @Override
-    public void init() throws ServletException {
-        dbProperties = new Properties();
-
-        try (InputStream in = getClass()
-                .getClassLoader()
-                .getResourceAsStream("db.properties")) {
-
-            if (in == null) {
-                throw new ServletException(
-                        "db.properties was not found in src/main/resources.");
-            }
-
-            dbProperties.load(in);
-
-        } catch (IOException e) {
-            throw new ServletException(
-                    "Unable to load db.properties.", e);
-        }
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new ServletException(
-                    "MySQL Connector/J is not available.", e);
-        }
-    }
-
 
     @Override
     protected void doGet(
@@ -85,17 +53,6 @@ public class AccountInfoServlet extends HttpServlet {
             sendUnauthorized(response);
             return;
         }
-
-        String host = dbProperties.getProperty("db.host", "localhost");
-        String port = dbProperties.getProperty("db.port", "3306");
-        String dbName = dbProperties.getProperty("db.name", "moffat_bay");
-        String user = dbProperties.getProperty("db.user");
-        String password = dbProperties.getProperty("db.password");
-
-        String dbUrl = "jdbc:mysql://" + host + ":" + port + "/"
-                + dbName
-                + "?useSSL=false&allowPublicKeyRetrieval=true"
-                + "&serverTimezone=UTC";
 
         /*
          * This query returns the customer's account information, one boat,
@@ -161,7 +118,7 @@ public class AccountInfoServlet extends HttpServlet {
         String sql = customerId != null ? sqlById : sqlByEmail;
 
         try (Connection connection =
-                     DriverManager.getConnection(dbUrl, user, password);
+                     DatabaseConnection.getConnection();
              PreparedStatement statement =
                      connection.prepareStatement(sql)) {
 
@@ -214,7 +171,7 @@ public class AccountInfoServlet extends HttpServlet {
                 writeJson(response, json);
             }
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             getServletContext().log(
                     "Unable to load account information.", e);
 
@@ -224,7 +181,14 @@ public class AccountInfoServlet extends HttpServlet {
             writeJson(
                     response,
                     "{\"ok\":false,"
-                  + "\"message\":\"Database error while loading account information.\"}");
+                  + "\"message\":" + jsonString(
+                        "Account API error: "
+                        + e.getClass().getSimpleName()
+                        + ": "
+                        + (e.getMessage() == null
+                            ? "No error message supplied."
+                            : e.getMessage()))
+                  + "}");
         }
     }
 
