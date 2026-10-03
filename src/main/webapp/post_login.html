@@ -11,12 +11,12 @@ CSD460
 
 
 Max Jankowski
-	
+
     Green Team - Moffat Bay Marina
 
-    Add a post-login page. This was a copy of the login and index page. the splash style is made to look like the landing page following user login credentials verification. 
-	this will be doen with hashing strategy that is yet to be determined. 
-	Layout of code copied from Alex's format for login page 
+    Add a post-login page. This was a copy of the login and index page. the splash style is made to look like the landing page following user login credentials verification.
+	this will be doen with hashing strategy that is yet to be determined.
+	Layout of code copied from Alex's format for login page
 -->
 
 <!DOCTYPE html>
@@ -55,7 +55,7 @@ Max Jankowski
 
 
     <!-- ========================================
-         EXTERNAL STYLESHEETS - Some confusion here, we need to make this more universal in a future task 
+         EXTERNAL STYLESHEETS - Some confusion here, we need to make this more universal in a future task
     ======================================== -->
 
     <link
@@ -263,7 +263,7 @@ Max Jankowski
 
 
         <!-- ========================================
-             Informing Client of Prototype 
+             Informing Client of Prototype
         ======================================== -->
 
         <div class="notice info">
@@ -348,13 +348,23 @@ Max Jankowski
 
 
 <script>
+    // FIXED 10-3-26: this used to fetch a RELATIVE "current-user" URL and
+    // credentials:"same-origin" - since this page is served from GitHub
+    // Pages and the backend lives on a different origin (Tailscale Funnel),
+    // that request was actually going to max-jankowski.github.io/current-user
+    // (which doesn't exist), always failing, and always falling back to the
+    // literal "Customer" placeholder in the catch block below. Same fix as
+    // login.html: absolute API_BASE URL + credentials:"include" so the
+    // session cookie from LoginServlet actually gets sent.
+    const API_BASE = "https://obsidianserver.tail969ab5.ts.net/MoffatBayMarina";
+
     document.addEventListener("DOMContentLoaded", async function () {
         const welcomeName = document.getElementById("welcomeName");
 
         try {
-            const response = await fetch("current-user", {
+            const response = await fetch(API_BASE + "/current-user", {
                 method: "GET",
-                credentials: "same-origin",
+                credentials: "include",
                 cache: "no-store",
                 headers: {
                     "Accept": "application/json"
