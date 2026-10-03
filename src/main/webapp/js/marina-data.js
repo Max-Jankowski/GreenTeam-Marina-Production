@@ -9,13 +9,13 @@ The Green Team
 CSD460
 /*
 
-/* 
-Max Jankowski 
-Bellevue University 
+/*
+Max Jankowski
+Bellevue University
 CSD 460
-Green Team Moffate bay project 
+Green Team Moffate bay project
 prototype data that i sused for the prototype slip availibity
-file stays in local storage for while we dont have an active DB ready. 
+file stays in local storage for while we dont have an active DB ready.
 */
 
 const SLIP_INVENTORY={26:30,40:24,50:18};
@@ -23,7 +23,7 @@ const ELECTRIC_FEE=10;
 const RATE_PER_FOOT=10;
 
 const defaultMarinaState={
- reserved:{26:26,40:24,50:12},   // created to show what a full bookeed section looks like 
+ reserved:{26:26,40:24,50:12},   // created to show what a full bookeed section looks like
  waitlist:{26:0,40:3,50:1}
 };
 
@@ -45,7 +45,12 @@ function requiredSlipSize(boatLength){
  return null; // if longer than our largest slip
 }
 
-// Fee calculation for monthly cost = $10 per foot of boat + $10 electric (34 ft boat = $350). Let me know if a goofed here. I think i got the project overveiw correct 
-function monthlyCost(boatLength){return boatLength*RATE_PER_FOOT+ELECTRIC_FEE}
+// Fee calculation for monthly cost = $10 per foot of boat, PLUS $10 electric
+// only when the customer actually opts in. Fixed on 10-3-26: this used to take
+// just boatLength and add ELECTRIC_FEE unconditionally every time, so the
+
+function monthlyCost(boatLength, electricIncluded = false){
+ return boatLength*RATE_PER_FOOT + (electricIncluded ? ELECTRIC_FEE : 0);
+}
 
 function joinWaitlist(size){const s=getMarinaState();s.waitlist[size]++;saveMarinaState(s);return s.waitlist[size]}
