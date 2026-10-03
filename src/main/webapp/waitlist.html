@@ -358,6 +358,16 @@ CSD460
 
     <script>
 
+        // FIXED 10-3-26: these fetch() calls used to hit a RELATIVE
+        // "waitlist" URL, which - since this page is served from GitHub
+        // Pages - actually went to max-jankowski.github.io/waitlist (does
+        // not exist) instead of the real backend. That 404 response broke
+        // response.json() below, so loadWaitlist() never finished and the
+        // "your entries" / "join" sections never appeared. Same fix as
+        // login.html: absolute API_BASE URL + credentials:"include" so the
+        // session cookie actually gets sent cross-origin.
+        const API_BASE = "https://obsidianserver.tail969ab5.ts.net/MoffatBayMarina";
+
         // ADDED: builds one summary row's markup for a slip size - counts
         // only, per the "never show customer names" wait list requirement.
         function summaryRow(slipType) {
@@ -398,7 +408,9 @@ CSD460
         // ADDED: pulls the live summary (and, if logged in, personal entries)
         // from the server and renders everything on the page.
         async function loadWaitlist() {
-            const response = await fetch('waitlist');
+            const response = await fetch(API_BASE + '/waitlist', {
+                credentials: 'include'
+            });
             const data = await response.json();
 
             if (!data.ok) {
@@ -448,8 +460,9 @@ CSD460
                 slipTypeId: document.getElementById('joinSlipTypeId').value
             };
 
-            const response = await fetch('waitlist', {
+            const response = await fetch(API_BASE + '/waitlist', {
                 method: 'POST',
+                credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
             });
