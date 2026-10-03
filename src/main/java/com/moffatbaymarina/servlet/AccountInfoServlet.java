@@ -1,3 +1,6 @@
+
+
+
 package com.moffatbaymarina.servlet;
 
 import com.moffatbaymarina.config.DatabaseConnection;
@@ -17,13 +20,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Returns account, boat, slip, and electric information for the
- * customer who is currently logged in.
- *
- * Database tables are based on GreenTeamDataBase.java:
- * customers -> boats -> reservations -> slips -> slip_types.
- */
+
+ // returns account info, so boat, slip,electric options for the logged in user. 
 @WebServlet("/account-info")
 public class AccountInfoServlet extends HttpServlet {
 
@@ -54,13 +52,9 @@ public class AccountInfoServlet extends HttpServlet {
             return;
         }
 
-        /*
-         * This query returns the customer's account information, one boat,
-         * and the newest non-cancelled reservation for that boat.
-         *
-         * LEFT JOIN is used so a registered customer can still see their
-         * account and boat information even if they do not have a reservation.
-         */
+        
+		 
+		//returns the clients account info, incljding boat and recent reservation  
         String sqlById =
                 "SELECT "
               + "c.first_name, "
@@ -193,10 +187,8 @@ public class AccountInfoServlet extends HttpServlet {
     }
 
 
-    /**
-     * Supports several common session attribute names so this servlet
-     * can work with the team's existing LoginServlet.
-     */
+    
+	// supports common session attribue names, so this should work with our current login servlet  
     private Integer getCustomerIdFromSession(HttpSession session) {
 
         String[] names = {
@@ -262,13 +254,9 @@ public class AccountInfoServlet extends HttpServlet {
     }
 
 
-    /**
-     * Allows the GitHub Pages front end to call this API while sending
-     * the authenticated JSESSIONID cookie.
-     *
-     * IMPORTANT:
-     * Access-Control-Allow-Origin cannot be "*" when credentials are used.
-     */
+   
+	 
+	 // making sure github pages front end works to call the API while sending the authtication cookie 
     private void addCorsHeaders(
             HttpServletRequest request,
             HttpServletResponse response) {
