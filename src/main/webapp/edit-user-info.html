@@ -290,6 +290,8 @@
 
 
 <script>
+    const API_BASE = "https://obsidianserver.tail969ab5.ts.net/MoffatBayMarina";
+
     /*
         Logged-in customer information page.
 
@@ -392,7 +394,7 @@ function displayValue(id, value, suffix = "") {
 
         try {
             const response = await fetch(
-                "account-info",
+                API_BASE + "/account-info",
                 {
                     method: "GET",
                     credentials: "include",
