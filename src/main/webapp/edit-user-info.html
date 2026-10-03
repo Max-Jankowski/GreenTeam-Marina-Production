@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Information | Moffat Bay Marina</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="css/styles2.css">
+    <link rel="stylesheet" href="css/StylesMain.css">
+    <link rel="stylesheet" href="css/footer.css">
+
+    <style>
+        .account-info-card {
+            margin-top: 24px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            background: #f7f8fa;
+            border: 1px solid #dfe3e8;
+            border-radius: 8px;
+            padding: 16px 18px;
+        }
+
+        .info-item .label {
+            display: block;
+            margin-bottom: 7px;
+            font-family: "Montserrat", sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #53606d;
+        }
+
+        .info-item .value {
+            display: block;
+            font-family: "Open Sans", sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #14233a;
+            min-height: 1.5em;
+        }
+
+        .info-section-title {
+            margin: 28px 0 8px;
+        }
+
+        .status-message {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 6px;
+            background: #f5f6f8;
+            border-left: 4px solid #c69a32;
+        }
+
+        .status-message.error {
+            border-left-color: #a72828;
+            background: #fff3f3;
+            color: #7e1e1e;
+        }
+
+        .loading {
+            opacity: 0.65;
+        }
+
+        @media (max-width: 700px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="nav">
+
+        <a class="brand" href="index.html">
+            <span class="anchor">⚓</span>
+
+            <span>
+                <span class="brand-name">MOFFAT BAY</span>
+                <span class="brand-sub">MARINA</span>
+            </span>
+        </a>
+
+        <nav aria-label="Main navigation">
+            <ul>
+                <li><a href="reservation.html">RESERVATION</a></li>
+                <li><a href="availability.html">AVAILABILITY</a></li>
+                <li><a href="waitlist.html">WAIT LIST</a></li>
+                <li><a href="pricing.html">PRICING</a></li>
+                <li>
+                    <a href="post_login.html">MY ACCOUNT</a>
+                </li>
+                <li>
+                    <a href="index.html" id="logoutLink">LOGOUT</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</header>
+
+
+<section
+    class="hero"
+    style="background:linear-gradient(90deg,rgba(2,18,42,.72),rgba(2,18,42,.15)),url('images/marina_dock.jpeg') center 42%/cover no-repeat;"
+>
+    <div class="hero-content">
+        <h1>
+            My Information<br>
+            <span id="welcomeName">Customer Account</span>
+        </h1>
+
+        <div class="gold-line"></div>
+
+        <p>
+            View the customer, boat, and slip information connected to your account.
+        </p>
+
+        <p class="tagline">
+            This information is loaded from your authenticated Moffat Bay Marina account.
+        </p>
+    </div>
+</section>
+
+
+<main class="container">
+
+    <div class="eyebrow">
+        MY ACCOUNT • ACCOUNT INFORMATION
+    </div>
+
+    <h1 class="title">
+        My Information
+    </h1>
+
+    <div class="gold-line"></div>
+
+    <section class="card account-info-card">
+
+        <h2>Account Information</h2>
+
+        <p class="small">
+            The information below belongs to the customer who is currently logged in.
+        </p>
+
+        <div id="accountInformation" class="loading">
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <span class="label">First Name</span>
+                    <span class="value" id="firstName">Loading...</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Last Name</span>
+                    <span class="value" id="lastName">Loading...</span>
+                </div>
+
+            </div>
+
+
+            <h2 class="info-section-title">Boat Information</h2>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <span class="label">Boat Name</span>
+                    <span class="value" id="boatName">Loading...</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Boat Size</span>
+                    <span class="value" id="boatSize">Loading...</span>
+                </div>
+
+            </div>
+
+
+            <h2 class="info-section-title">Slip Information</h2>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <span class="label">Slip Size</span>
+                    <span class="value" id="slipSize">Loading...</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Electric Service</span>
+                    <span class="value" id="electric">Loading...</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="statusMessage" class="status-message" role="status">
+            Loading your account information...
+        </div>
+
+        <div class="actions" style="justify-content:flex-start; margin-top:24px;">
+            <a class="btn secondary" href="post_login.html">
+                BACK TO MY ACCOUNT
+            </a>
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="site-footer">
+
+    <div class="footer-container">
+
+        <div class="footer-item">
+            <div class="footer-icon" aria-hidden="true">📍</div>
+            <div>
+                <h3>VISIT US</h3>
+                <p>
+                    123 Harbor Way<br>
+                    Moffat Bay, ST 12345
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-item">
+            <div class="footer-icon" aria-hidden="true">📞</div>
+            <div>
+                <h3>CALL US</h3>
+                <p>
+                    <a href="tel:+15551234567">(555) 123-4567</a><br>
+                    Mon – Fri: 8am – 5pm
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-item">
+            <div class="footer-icon" aria-hidden="true">📡</div>
+            <div>
+                <h3>VHF CHANNEL</h3>
+                <p>
+                    Channel 16<br>
+                    Harbormaster
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-item">
+            <div class="footer-icon" aria-hidden="true">✉</div>
+            <div>
+                <h3>EMAIL US</h3>
+                <p>
+                    <a href="mailto:info@moffatbaymarina.com">
+                        info@moffatbaymarina.com
+                    </a><br>
+                    We're here to help!
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>
+            © 2026 Moffat Bay Marina &nbsp;•&nbsp; CSD460 &nbsp;•&nbsp; The Green Team
+        </p>
+    </div>
+
+</footer>
+
+
+<script>
+    /*
+        Logged-in customer information page.
+
+        IMPORTANT:
+        This page intentionally does NOT trust account information saved in
+        localStorage/sessionStorage. The server session is the source of truth.
+
+        Backend endpoint:
+            GET account-info
+
+        The AccountInfoServlet connects to the local MySQL database using
+        db.properties and returns the record for the authenticated customer.
+
+        Expected JSON example:
+        {
+            "ok": true,
+            "firstName": "Alex",
+            "lastName": "Baldree",
+            "boatName": "Sea Breeze",
+            "boatSize": 32,
+            "slipSize": 40,
+            "electric": true
+        }
+
+        The servlet should determine the customer from the authenticated
+        HttpSession and query the database for that customer's information.
+    */
+    // Same-origin servlet backed by the local Moffat Bay MySQL database.
+function displayValue(id, value, suffix = "") {
+        const element = document.getElementById(id);
+
+        if (!element) {
+            return;
+        }
+
+        if (
+            value === null ||
+            value === undefined ||
+            String(value).trim() === ""
+        ) {
+            element.textContent = "Not available";
+            return;
+        }
+
+        element.textContent = String(value) + suffix;
+    }
+
+
+    function firstAvailable(object, keys) {
+        for (const key of keys) {
+            if (
+                Object.prototype.hasOwnProperty.call(object, key) &&
+                object[key] !== null &&
+                object[key] !== undefined &&
+                String(object[key]).trim() !== ""
+            ) {
+                return object[key];
+            }
+        }
+
+        return null;
+    }
+
+
+    function formatElectric(value) {
+        if (value === null || value === undefined || value === "") {
+            return "Not available";
+        }
+
+        if (
+            value === true ||
+            value === 1 ||
+            value === "1" ||
+            String(value).toLowerCase() === "true" ||
+            String(value).toLowerCase() === "yes"
+        ) {
+            return "Yes";
+        }
+
+        if (
+            value === false ||
+            value === 0 ||
+            value === "0" ||
+            String(value).toLowerCase() === "false" ||
+            String(value).toLowerCase() === "no"
+        ) {
+            return "No";
+        }
+
+        return String(value);
+    }
+
+
+    async function loadAccountInformation() {
+        const accountInformation =
+            document.getElementById("accountInformation");
+
+        const statusMessage =
+            document.getElementById("statusMessage");
+
+        try {
+            const response = await fetch(
+                "account-info",
+                {
+                    method: "GET",
+                    credentials: "include",
+                    cache: "no-store",
+                    headers: {
+                        "Accept": "application/json"
+                    }
+                }
+            );
+
+            let data = {};
+
+            try {
+                data = await response.json();
+            } catch (jsonError) {
+                throw new Error(
+                    "The server did not return valid account information."
+                );
+            }
+
+            if (response.status === 401 || response.status === 403) {
+                window.location.href =
+                    data.redirect || "login.html";
+                return;
+            }
+
+            if (!response.ok || data.ok === false) {
+                throw new Error(
+                    data.message ||
+                    "Unable to load account information."
+                );
+            }
+
+
+            /*
+                Accept a few common property names so this page is easier
+                to connect to the existing servlet/database model.
+            */
+
+            const firstName = firstAvailable(
+                data,
+                ["firstName", "first_name", "customerFirstName"]
+            );
+
+            const lastName = firstAvailable(
+                data,
+                ["lastName", "last_name", "customerLastName"]
+            );
+
+            const boatName = firstAvailable(
+                data,
+                ["boatName", "boat_name"]
+            );
+
+            const boatSize = firstAvailable(
+                data,
+                [
+                    "boatSize",
+                    "boatLength",
+                    "boat_size",
+                    "boat_length"
+                ]
+            );
+
+            const slipSize = firstAvailable(
+                data,
+                [
+                    "slipSize",
+                    "slipLength",
+                    "slip_size",
+                    "slip_length"
+                ]
+            );
+
+            const electric = firstAvailable(
+                data,
+                [
+                    "electric",
+                    "electricService",
+                    "electric_service",
+                    "needsElectric"
+                ]
+            );
+
+
+            displayValue("firstName", firstName);
+            displayValue("lastName", lastName);
+            displayValue("boatName", boatName);
+
+            displayValue(
+                "boatSize",
+                boatSize,
+                boatSize !== null ? " ft" : ""
+            );
+
+            displayValue(
+                "slipSize",
+                slipSize,
+                slipSize !== null ? " ft" : ""
+            );
+
+            document.getElementById("electric").textContent =
+                formatElectric(electric);
+
+
+            const welcomeName =
+                document.getElementById("welcomeName");
+
+            if (welcomeName) {
+                const fullName =
+                    [firstName, lastName]
+                        .filter(Boolean)
+                        .join(" ");
+
+                welcomeName.textContent =
+                    fullName || "Customer Account";
+            }
+
+
+            accountInformation.classList.remove("loading");
+
+            statusMessage.textContent =
+                "Account information loaded from your logged-in customer record.";
+
+            statusMessage.classList.remove("error");
+
+        } catch (error) {
+            console.error(
+                "Unable to load account information:",
+                error
+            );
+
+            accountInformation.classList.remove("loading");
+
+            const values = accountInformation.querySelectorAll(".value");
+
+            values.forEach(function (element) {
+                if (element.textContent === "Loading...") {
+                    element.textContent = "Not available";
+                }
+            });
+
+            statusMessage.textContent =
+                "We could not load your account information. " +
+                "Make sure the account-info servlet can connect to the Moffat Bay database and " +
+                "that you are logged in.";
+
+            statusMessage.classList.add("error");
+        }
+    }
+
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+            loadAccountInformation();
+
+            const logoutLink =
+                document.getElementById("logoutLink");
+
+            if (logoutLink) {
+                logoutLink.addEventListener(
+                    "click",
+                    function () {
+                        sessionStorage.removeItem(
+                            "moffatLoggedInFirstName"
+                        );
+
+                        sessionStorage.removeItem(
+                            "moffatLoggedInEmail"
+                        );
+                    }
+                );
+            }
+        }
+    );
+</script>
+
+</body>
+</html>
