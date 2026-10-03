@@ -10,6 +10,11 @@ CSD460
 */
 
 (function () {
+ 
+  //fixed 10-3, need to generate an api call to the right url. this verification is being served via github pages so it normally went to the that 
+  // url when it needed to go to pi server, so this is the new routeing 
+  const API_BASE = "https://obsidianserver.tail969ab5.ts.net/MoffatBayMarina";
+
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   function el(id) { return document.getElementById(id); }
@@ -133,8 +138,9 @@ CSD460
       if (notice) notice.textContent = 'Checking your verification token with the server...';
 
       try {
-        const response = await fetch('verification', {
+        const response = await fetch(API_BASE + '/verification', {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
