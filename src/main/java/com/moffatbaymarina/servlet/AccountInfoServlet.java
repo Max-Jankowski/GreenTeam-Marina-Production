@@ -65,6 +65,8 @@ public class AccountInfoServlet extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
 
+        addCorsHeaders(request, response);
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.setHeader("Cache-Control", "no-store");
@@ -282,6 +284,66 @@ public class AccountInfoServlet extends HttpServlet {
         }
 
         return null;
+    }
+
+
+    @Override
+    protected void doOptions(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws IOException {
+
+        addCorsHeaders(request, response);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+    }
+
+
+    /**
+     * Allows the GitHub Pages front end to call this API while sending
+     * the authenticated JSESSIONID cookie.
+     *
+     * IMPORTANT:
+     * Access-Control-Allow-Origin cannot be "*" when credentials are used.
+     */
+    private void addCorsHeaders(
+            HttpServletRequest request,
+            HttpServletResponse response) {
+
+        String origin = request.getHeader("Origin");
+
+        // Allow the deployed GitHub Pages front end.
+        // Also allow local development origins.
+        if (origin != null && (
+                origin.equals("https://max-jankowski.github.io")
+                || origin.equals("http://localhost:8080")
+                || origin.equals("http://127.0.0.1:8080")
+                || origin.equals("http://localhost:5500")
+                || origin.equals("http://127.0.0.1:5500"))) {
+
+            response.setHeader(
+                    "Access-Control-Allow-Origin",
+                    origin);
+
+            response.setHeader(
+                    "Access-Control-Allow-Credentials",
+                    "true");
+
+            response.setHeader(
+                    "Vary",
+                    "Origin");
+        }
+
+        response.setHeader(
+                "Access-Control-Allow-Methods",
+                "GET, OPTIONS");
+
+        response.setHeader(
+                "Access-Control-Allow-Headers",
+                "Content-Type, Accept");
+
+        response.setHeader(
+                "Access-Control-Max-Age",
+                "3600");
     }
 
 
