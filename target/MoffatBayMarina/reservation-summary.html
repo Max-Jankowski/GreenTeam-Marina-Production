@@ -1,0 +1,955 @@
+<!--
+Alexander Baldree
+Max Jankowski
+Aftabur Rahman
+Jordan Dardar
+
+Moffat Bay Marina Project
+The Green Team
+CSD460
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Reservation Summary | Moffat Bay Marina</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/styles.css"
+    >
+
+    <!-- Universal Footer Stylesheet - load last -->
+    <link rel="stylesheet" href="css/footer.css">
+</head>
+
+<body>
+
+    <!-- ========================================
+         HEADER / NAVIGATION
+    ======================================== -->
+
+    <header>
+
+        <div class="nav">
+
+            <a
+                class="brand"
+                href="index.html"
+            >
+                <span class="anchor">⚓</span>
+
+                <span>
+                    <span class="brand-name">
+                        MOFFAT BAY
+                    </span>
+
+                    <span class="brand-sub">
+                        MARINA
+                    </span>
+                </span>
+            </a>
+
+
+            <nav aria-label="Main navigation">
+
+                <ul>
+
+                    <li>
+                        <a href="index.html">
+                            HOME
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="reservation.html">
+                            RESERVATION
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            class="active"
+                            href="reservation-summary.html"
+                        >
+                            SUMMARY
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="reservation-lookup.html">
+                            LOOKUP
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- ========================================
+         MAIN CONTENT
+    ======================================== -->
+
+    <main class="container">
+
+        <div class="eyebrow">
+            UST-07 • RESERVATION SUMMARY
+        </div>
+
+        <h1 class="title">
+            Review Your Reservation
+        </h1>
+
+        <div class="gold-line"></div>
+
+
+        <div id="message"></div>
+
+
+        <!-- No Reservation Message -->
+        <section
+            class="card"
+            id="noReservation"
+            style="display: none;"
+        >
+
+            <h2>
+                No Reservation Found
+            </h2>
+
+            <p class="small">
+                Create a reservation before viewing
+                the reservation summary.
+            </p>
+
+            <div class="actions">
+
+                <a
+                    class="btn primary"
+                    href="reservation.html"
+                >
+                    CREATE RESERVATION
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- Reservation Summary -->
+        <section
+            class="card"
+            id="summaryCard"
+        >
+
+            <div class="card-head">
+
+                <div>
+
+                    <h2>
+                        Reservation Details
+                    </h2>
+
+                    <p class="small">
+                        Please review your information
+                        before confirming.
+                    </p>
+
+                </div>
+
+
+                <span
+                    class="id"
+                    id="idTop"
+                ></span>
+
+            </div>
+
+
+            <div class="grid">
+
+                <div class="item">
+                    <span class="label">
+                        Reservation ID
+                    </span>
+
+                    <span
+                        class="value"
+                        id="id"
+                    ></span>
+                </div>
+
+
+                <div class="item">
+                    <span class="label">
+                        Customer Email
+                    </span>
+
+                    <span
+                        class="value"
+                        id="email"
+                    ></span>
+                </div>
+
+
+                <div class="item">
+                    <span class="label">
+                        Boat Name
+                    </span>
+
+                    <span
+                        class="value"
+                        id="boatName"
+                    ></span>
+                </div>
+
+
+                <div class="item">
+                    <span class="label">
+                        Boat Length
+                    </span>
+
+                    <span
+                        class="value"
+                        id="boatLength"
+                    ></span>
+                </div>
+
+
+                <div class="item">
+                    <span class="label">
+                        Slip Size
+                    </span>
+
+                    <span
+                        class="value"
+                        id="slipSize"
+                    ></span>
+                </div>
+
+
+                <div class="item">
+                    <span class="label">
+                        Slip Number
+                    </span>
+
+                    <span
+                        class="value"
+                        id="slipNumber"
+                    ></span>
+                </div>
+
+
+                <div class="item">
+                    <span class="label">
+                        Check-In Date
+                    </span>
+
+                    <span
+                        class="value"
+                        id="checkIn"
+                    ></span>
+                </div>
+
+
+                <div class="item">
+                    <span class="label">
+                        Reservation Status
+                    </span>
+
+                    <span
+                        class="value"
+                        id="status"
+                    ></span>
+                </div>
+
+
+                <!-- Now showing whether electric service was selected 9-10 -->
+                <div class="item">
+                    <span class="label">
+                        Electric Service
+                    </span>
+
+                    <span
+                        class="value"
+                        id="electricService"
+                    ></span>
+                </div>
+
+
+                <div class="item">
+                    <span class="label">
+                        Monthly Cost
+                    </span>
+
+                    <span
+                        class="cost"
+                        id="cost"
+                    ></span>
+                </div>
+
+            </div>
+
+
+            <div
+                class="actions"
+                id="actions"
+            ></div>
+
+        </section>
+
+
+        <div class="notice info">
+
+            <strong>
+                Prototype:
+            </strong>
+
+            Confirming or cancelling the reservation
+            updates the same browser data used by the
+            Reservation Lookup page.
+
+        </div>
+
+    </main>
+
+
+    <!-- ========================================
+         UNIVERSAL FOOTER
+    ======================================== -->
+    <footer class="site-footer">
+
+        <div class="footer-container">
+
+            <div class="footer-item">
+                <div class="footer-icon" aria-hidden="true">📍</div>
+                <div>
+                    <h3>VISIT US</h3>
+                    <p>
+                        123 Harbor Way<br>
+                        Moffat Bay, ST 12345
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-item">
+                <div class="footer-icon" aria-hidden="true">📞</div>
+                <div>
+                    <h3>CALL US</h3>
+                    <p>
+                        <a href="tel:+15551234567">(555) 123-4567</a><br>
+                        Mon – Fri: 8am – 5pm
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-item">
+                <div class="footer-icon" aria-hidden="true">📡</div>
+                <div>
+                    <h3>VHF CHANNEL</h3>
+                    <p>
+                        Channel 16<br>
+                        Harbormaster
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-item">
+                <div class="footer-icon" aria-hidden="true">✉</div>
+                <div>
+                    <h3>EMAIL US</h3>
+                    <p>
+                        <a href="mailto:info@moffatbaymarina.com">
+                            info@moffatbaymarina.com
+                        </a><br>
+                        We're here to help!
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>
+                © 2026 Moffat Bay Marina &nbsp;•&nbsp; CSD460 &nbsp;•&nbsp; The Green Team
+            </p>
+        </div>
+
+    </footer>
+
+
+    <script>
+
+        /* ========================================
+           SHARED RESERVATION PROTOTYPE FUNCTIONS
+        ======================================== */
+
+        const RESERVATION_KEY = "moffatBayReservations";
+        const CURRENT_RESERVATION_KEY = "moffatBayCurrentReservationId";
+
+        function getReservations() {
+            try {
+                const saved = localStorage.getItem(RESERVATION_KEY);
+                return saved ? JSON.parse(saved) : [];
+            }
+            catch (error) {
+                console.error("Unable to read reservation data.", error);
+                return [];
+            }
+        }
+
+        function saveReservations(reservations) {
+            localStorage.setItem(
+                RESERVATION_KEY,
+                JSON.stringify(reservations)
+            );
+        }
+
+        function saveReservation(reservation) {
+            const reservations = getReservations();
+
+            const index = reservations.findIndex(
+                item => item.id === reservation.id
+            );
+
+            if (index >= 0) {
+                reservations[index] = reservation;
+            }
+            else {
+                reservations.push(reservation);
+            }
+
+            saveReservations(reservations);
+
+            localStorage.setItem(
+                CURRENT_RESERVATION_KEY,
+                reservation.id
+            );
+
+            return reservation;
+        }
+
+        function getReservationById(id) {
+            const cleanId = String(id || "").trim().toLowerCase();
+
+            return (
+                getReservations().find(
+                    reservation =>
+                        String(reservation.id)
+                            .toLowerCase() === cleanId
+                ) || null
+            );
+        }
+
+        function getCurrentReservation() {
+            const currentId =
+                localStorage.getItem(
+                    CURRENT_RESERVATION_KEY
+                );
+
+            if (currentId) {
+                const reservation =
+                    getReservationById(currentId);
+
+                if (reservation) {
+                    return reservation;
+                }
+            }
+
+            const reservations = getReservations();
+
+            return reservations.length
+                ? reservations[reservations.length - 1]
+                : null;
+        }
+
+        function requiredSlipSize(boatLength) {
+            const length = Number(boatLength);
+
+            if (!Number.isFinite(length) || length <= 0) {
+                return null;
+            }
+
+            if (length <= 26) {
+                return 26;
+            }
+
+            if (length <= 40) {
+                return 40;
+            }
+
+            if (length <= 50) {
+                return 50;
+            }
+
+            return null;
+        }
+
+        // still keeping in sync with reservation.html's version (rate change to 
+        // 10.50 and electric optional) even though nothing in this file
+        // currently calls this function. 9-10
+        function monthlyCost(boatLength, electricIncluded) {
+            return (Number(boatLength) * 10.5) + (electricIncluded ? 10 : 0);
+        }
+
+        function generateReservationId() {
+            const year = new Date().getFullYear();
+
+            return (
+                "MB-" +
+                year +
+                "-" +
+                Math.floor(10000 + Math.random() * 90000)
+            );
+        }
+
+        function generateSlipNumber(slipSize) {
+            const reservations = getReservations();
+
+            const used = reservations.filter(
+                reservation =>
+                    Number(reservation.slipSize) ===
+                        Number(slipSize) &&
+                    reservation.status !== "Cancelled"
+            ).length;
+
+            const dockLetters = ["A", "B", "C"];
+
+            let startingSlip = 1;
+
+            if (Number(slipSize) === 26) {
+                startingSlip = 8;
+            }
+            else if (Number(slipSize) === 40) {
+                startingSlip = 4;
+            }
+
+            const dock =
+                dockLetters[
+                    Math.floor(used / 8) %
+                    dockLetters.length
+                ];
+
+            return (
+                dock +
+                "-" +
+                (startingSlip + (used % 8))
+            );
+        }
+
+        function statusHTML(status) {
+            if (status === "Cancelled") {
+                return (
+                    '<span class="status cancelled">' +
+                    "Cancelled" +
+                    "</span>"
+                );
+            }
+
+            return (
+                '<span class="status">' +
+                (status || "Pending") +
+                "</span>"
+            );
+        }
+
+        function escapeHTML(value) {
+            return String(value ?? "")
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+
+
+        /* ========================================
+           SUMMARY PAGE FUNCTIONALITY
+        ======================================== */
+
+        /*
+         * Imports reservation information passed from
+         * reservation.html.
+         */
+        function importReservationDataFromURL() {
+
+            const params =
+                new URLSearchParams(
+                    window.location.search
+                );
+
+            const data =
+                params.get("data");
+
+            const currentId =
+                params.get("current") || params.get("id");
+
+
+            if (data) {
+                try {
+
+                    const reservations =
+                        JSON.parse(data);
+
+                    if (Array.isArray(reservations)) {
+                        saveReservations(
+                            reservations
+                        );
+                    }
+
+                }
+                catch (error) {
+                    console.error(
+                        "Unable to import reservation data.",
+                        error
+                    );
+                }
+            }
+
+
+            if (currentId) {
+                localStorage.setItem(
+                    CURRENT_RESERVATION_KEY,
+                    currentId
+                );
+            }
+        }
+
+
+        /*
+         * Creates a Lookup page URL containing the
+         * current reservation history.
+         */
+        function lookupURL() {
+            // Reservation history now comes from the logged-in customer's
+            // server-side session, so no reservation data is placed in the URL.
+            return "reservation-lookup.html";
+        }
+
+
+        /*
+         * Updates normal Lookup navigation links so
+         * they carry the reservation data forward.
+         */
+        function updateLookupLinks() {
+
+            const url = lookupURL();
+
+            document
+                .querySelectorAll(
+                    'a[href="reservation-lookup.html"]'
+                )
+                .forEach(
+                    function (link) {
+                        link.href = url;
+                    }
+                );
+        }
+
+
+        function render() {
+
+            const reservation =
+                getCurrentReservation();
+
+            const summaryCard =
+                document.getElementById(
+                    "summaryCard"
+                );
+
+            const noReservation =
+                document.getElementById(
+                    "noReservation"
+                );
+
+
+            if (!reservation) {
+
+                summaryCard.style.display =
+                    "none";
+
+                noReservation.style.display =
+                    "block";
+
+                return;
+            }
+
+
+            summaryCard.style.display =
+                "block";
+
+            noReservation.style.display =
+                "none";
+
+
+            document.getElementById(
+                "id"
+            ).textContent =
+                reservation.id;
+
+
+            document.getElementById(
+                "idTop"
+            ).textContent =
+                reservation.id;
+
+
+            document.getElementById(
+                "email"
+            ).textContent =
+                reservation.email;
+
+
+            document.getElementById(
+                "boatName"
+            ).textContent =
+                reservation.boatName;
+
+
+            document.getElementById(
+                "boatLength"
+            ).textContent =
+                reservation.boatLength +
+                " ft";
+
+
+            document.getElementById(
+                "slipSize"
+            ).textContent =
+                reservation.slipSize +
+                " ft";
+
+
+            document.getElementById(
+                "slipNumber"
+            ).textContent =
+                reservation.slipNumber;
+
+
+            document.getElementById(
+                "checkIn"
+            ).textContent =
+                reservation.checkIn;
+
+
+            document.getElementById(
+                "status"
+            ).innerHTML =
+                statusHTML(
+                    reservation.status
+                );
+
+
+            // shows whether electric was included on this reservation by client, Added Max 9-10
+            document.getElementById(
+                "electricService"
+            ).innerHTML =
+                reservation.electricIncluded
+                    ? '<span class="status">Included</span>'
+                    : '<span class="status cancelled">Not included</span>';
+
+
+            document.getElementById(
+                "cost"
+            ).textContent =
+                "$" +
+                Number(
+                    reservation.monthlyCost
+                ).toFixed(2) +
+                "/month";
+
+
+            const actions =
+                document.getElementById(
+                    "actions"
+                );
+
+
+            if (
+                reservation.status ===
+                "Cancelled"
+            ) {
+
+                actions.innerHTML =
+                    '<a class="btn primary" href="reservation.html">' +
+                        "CREATE NEW RESERVATION" +
+                    "</a>" +
+
+                    '<a class="btn secondary" href="' +
+                        lookupURL() +
+                    '">' +
+                        "VIEW HISTORY" +
+                    "</a>";
+            }
+
+            else if (
+                reservation.status ===
+                "Confirmed"
+            ) {
+
+                actions.innerHTML =
+                    '<a class="btn secondary" href="' +
+                        lookupURL() +
+                    '">' +
+                        "LOOK UP RESERVATION" +
+                    "</a>" +
+
+                    '<button class="btn danger" type="button" onclick="cancelReservation()">' +
+                        "CANCEL RESERVATION" +
+                    "</button>";
+            }
+
+            else {
+
+                actions.innerHTML =
+                    '<button class="btn primary" type="button" onclick="confirmReservation()">' +
+                        "CONFIRM RESERVATION" +
+                    "</button>" +
+
+                    '<button class="btn danger" type="button" onclick="cancelReservation()">' +
+                        "CANCEL RESERVATION" +
+                    "</button>";
+            }
+        }
+
+
+        async function updateReservationStatus(reservation, status) {
+            const response = await fetch("reservation", {
+                method: "PUT",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    reservationId: reservation.id,
+                    status: status
+                })
+            });
+
+            const data = await response.json();
+            if (!response.ok || !data.ok) {
+                const error = new Error(
+                    data.message || "Unable to update the reservation."
+                );
+                error.status = response.status;
+                throw error;
+            }
+
+            return data;
+        }
+
+
+        async function confirmReservation() {
+
+            const reservation = getCurrentReservation();
+            if (!reservation) return;
+
+            const message = document.getElementById("message");
+
+            try {
+                await updateReservationStatus(reservation, "CONFIRMED");
+
+                reservation.status = "Confirmed";
+                saveReservation(reservation);
+                updateLookupLinks();
+
+                message.innerHTML =
+                    '<div class="notice success">' +
+                        "<strong>Reservation confirmed.</strong> " +
+                        "Your reservation is now marked as confirmed." +
+                    "</div>";
+
+                render();
+            } catch (error) {
+                message.innerHTML =
+                    '<div class="notice warning">' +
+                        escapeHTML(error.message || "Unable to confirm the reservation.") +
+                    "</div>";
+            }
+        }
+
+
+        async function cancelReservation() {
+
+            const reservation = getCurrentReservation();
+            if (!reservation) return;
+
+            const approved = confirm(
+                "Cancel reservation " + reservation.id + "?"
+            );
+
+            if (!approved) return;
+
+            const message = document.getElementById("message");
+
+            try {
+                await updateReservationStatus(reservation, "CANCELLED");
+
+                reservation.status = "Cancelled";
+                reservation.cancelledAt = new Date().toISOString();
+                saveReservation(reservation);
+                updateLookupLinks();
+
+                message.innerHTML =
+                    '<div class="notice warning">' +
+                        "<strong>Reservation cancelled.</strong> " +
+                        "The cancelled reservation remains available in reservation history." +
+                    "</div>";
+
+                render();
+            } catch (error) {
+                message.innerHTML =
+                    '<div class="notice warning">' +
+                        escapeHTML(error.message || "Unable to cancel the reservation.") +
+                    "</div>";
+            }
+        }
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                importReservationDataFromURL();
+
+                updateLookupLinks();
+
+                render();
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

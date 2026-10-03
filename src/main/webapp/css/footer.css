@@ -1,0 +1,268 @@
+/*
+Alexander Baldree
+Max Jankowski
+Aftabur Rahman
+Jordan Dardar
+
+Moffat Bay Marina Project
+The Green Team
+CSD460
+*/
+
+
+/* ==================================================
+   PAGE SUPPORT
+   Keeps the footer at the bottom on short pages.
+================================================== */
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+body > main {
+    flex: 1 0 auto;
+    width: 100%;
+}
+
+
+/* ==================================================
+   UNIVERSAL FOOTER
+   Overrides older footer rules from all page stylesheets.
+================================================== */
+
+footer.site-footer {
+    width: 100%;
+    margin: auto 0 0;
+    padding: 0;
+
+    background: var(--navy, #061b3a);
+    color: var(--white, #ffffff);
+
+    border: 0;
+    border-top: 4px solid var(--gold, #eab53f);
+
+    box-sizing: border-box;
+    flex-shrink: 0;
+
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: inherit;
+    line-height: 1.6;
+    text-align: left;
+}
+
+
+/* ==================================================
+   FOOTER INFORMATION ROW
+================================================== */
+
+footer.site-footer .footer-container {
+    width: 100%;
+    max-width: 1400px;
+
+    margin: 0 auto;
+    padding: 38px 6%;
+
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 32px;
+    align-items: start;
+}
+
+
+/* ==================================================
+   INDIVIDUAL FOOTER ITEMS
+================================================== */
+
+footer.site-footer .footer-item {
+    min-width: 0;
+    margin: 0;
+
+    display: flex;
+    flex-direction: row;
+
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    gap: 14px;
+
+    text-align: left;
+}
+
+footer.site-footer .footer-item > div:last-child {
+    min-width: 0;
+}
+
+
+/* ==================================================
+   FOOTER ICONS
+================================================== */
+
+footer.site-footer .footer-icon {
+    width: 32px;
+    min-width: 32px;
+
+    margin-top: 2px;
+
+    color: var(--gold, #eab53f);
+
+    font-size: 22px;
+    line-height: 1.2;
+
+    text-align: center;
+}
+
+
+/* ==================================================
+   FOOTER HEADINGS
+================================================== */
+
+footer.site-footer .footer-item h3 {
+    margin: 0 0 7px;
+    padding: 0;
+
+    color: var(--gold, #eab53f);
+
+    font-family: "Montserrat", Arial, sans-serif;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    line-height: 1.3;
+    letter-spacing: 0.8px;
+
+    text-transform: uppercase;
+}
+
+
+/* ==================================================
+   FOOTER TEXT
+================================================== */
+
+footer.site-footer .footer-item p {
+    margin: 0;
+    padding: 0;
+
+    color: #dce8ef;
+
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.7;
+
+    text-align: left;
+}
+
+
+/* ==================================================
+   FOOTER LINKS
+================================================== */
+
+footer.site-footer a {
+    color: var(--white, #ffffff);
+    text-decoration: none;
+
+    transition: color 0.2s ease;
+}
+
+footer.site-footer a:hover,
+footer.site-footer a:focus-visible {
+    color: var(--gold, #eab53f);
+}
+
+footer.site-footer .footer-item a {
+    overflow-wrap: anywhere;
+}
+
+
+/* ==================================================
+   FOOTER BOTTOM BAR
+================================================== */
+
+footer.site-footer .footer-bottom {
+    width: 100%;
+
+    margin: 0;
+    padding: 18px 6%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+
+    text-align: center;
+}
+
+footer.site-footer .footer-bottom p {
+    width: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    color: rgba(255, 255, 255, 0.82);
+
+    font-family: "Montserrat", Arial, sans-serif;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    line-height: 1.5;
+    letter-spacing: 0.2px;
+
+    text-align: center;
+}
+
+
+/* ==================================================
+   TABLET FOOTER
+================================================== */
+
+@media (max-width: 900px) {
+
+    footer.site-footer .footer-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        padding: 34px 6%;
+
+        gap: 28px 32px;
+    }
+
+}
+
+
+/* ==================================================
+   MOBILE FOOTER
+================================================== */
+
+@media (max-width: 600px) {
+
+    footer.site-footer .footer-container {
+        grid-template-columns: 1fr;
+
+        padding: 30px 7%;
+
+        gap: 24px;
+    }
+
+    footer.site-footer .footer-item {
+        justify-content: flex-start;
+        text-align: left;
+    }
+
+    footer.site-footer .footer-bottom {
+        padding: 18px 7%;
+    }
+
+    footer.site-footer .footer-bottom p {
+        font-size: 11px;
+    }
+
+}

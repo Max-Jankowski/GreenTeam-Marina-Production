@@ -1,0 +1,524 @@
+<!--
+Alexander Baldree
+Max Jankowski
+Aftabur Rahman
+Jordan Dardar
+
+Moffat Bay Marina Project
+The Green Team
+CSD460
+
+Modification by Max 8-22 to include layout image 
+
+-->
+
+<!--
+    Max Jankowski
+    Green Team - Moffat Bay Marina
+
+    Used Aftab's landing page as a template.
+
+    This page points to the styles2.css file, so make sure
+    styles2.css is located in the same folder when running
+    the project locally.
+
+    This page also uses different icons from the original
+    landing page.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Slip Availability | Moffat Bay Marina</title>
+
+
+    <!-- ========================================
+         GOOGLE FONTS
+    ======================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- ========================================
+         EXTERNAL STYLESHEET
+    ======================================== -->
+
+    <link
+        rel="stylesheet"
+        href="css/styles2.css"
+    >
+
+
+    <!-- Universal Footer Stylesheet - load last -->
+    <link rel="stylesheet" href="css/footer.css">
+</head>
+
+
+<body>
+
+    <!-- ========================================
+         HEADER / NAVIGATION
+    ======================================== -->
+
+    <header>
+
+        <div class="nav">
+
+            <!-- Marina Brand -->
+            <a
+                class="brand"
+                href="reservation.html"
+            >
+
+                <span class="anchor">
+                    ⚓
+                </span>
+
+                <span>
+
+                    <span class="brand-name">
+                        MOFFAT BAY
+                    </span>
+
+                    <span class="brand-sub">
+                        MARINA
+                    </span>
+
+                </span>
+
+            </a>
+
+
+            <!-- Main Navigation -->
+            <nav aria-label="Main navigation">
+
+                <ul>
+
+                    <li>
+                        <a href="index.html">
+                            HOME
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="pricing.html">
+                            PRICING
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            class="active"
+                            href="availability.html"
+                            aria-current="page"
+                        >
+                            AVAILABILITY
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="waitlist.html">
+                            WAIT LIST
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="reservation.html">
+                            RESERVATION
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- ========================================
+         MAIN CONTENT
+    ======================================== -->
+
+    <main class="container">
+
+
+        <!-- ========================================
+             PAGE TITLE
+        ======================================== -->
+
+        <div class="eyebrow">
+            SLIP AVAILABILITY
+        </div>
+
+        <h1 class="title">
+            Long-Term Slip Availability
+        </h1>
+
+        <div class="gold-line"></div>
+
+
+        <!-- ========================================
+             SLIP MAP SECTION: added my Max on 8-22 to provide the client with a future fucntioning interactive feature that will allow the user to see available slips currently. 
+			 This will require a bit of research by the team as far as how to implement. for now this is a stand in. It shows the user the layout of the marina a informs them of open slips. 
+			 We are using the image sources from the project overveiw page for the CSD-460 course 
+        ======================================== -->
+
+        <section class="card">
+
+            <div class="card-head">
+
+                <div>
+
+                    <h2>
+                        Marina Slip Map
+                    </h2>
+
+                    <p class="small">
+                        Reference layout showing Docks A, B, and C
+                        and the slip size for each position.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <img
+                src="images/marina_Slip_layout.png"
+                alt="Moffat Bay Marina slip layout showing Docks A, B, and C"
+                style="width: 100%; border-radius: 8px; border: 1px solid var(--border);"
+            >
+
+            <div
+                class="notice info"
+                style="margin-top: 20px;"
+            >
+
+                <strong>
+                    Prototype note:
+                </strong>
+
+                The layout image will be interactive and allow the
+                user to select a slip. Letting them know which
+                slips are taken. The implementation will require more time to
+                research and design a full, intuitive user
+                interface. For now, this is a prototype meant to
+                illustrate our goals to the client.
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================
+             SLIP AVAILABILITY SECTION
+        ======================================== -->
+
+        <section class="card">
+
+            <div class="card-head">
+
+                <div>
+
+                    <h2>
+                        Availability by Slip Size
+                    </h2>
+
+                    <p class="small">
+                        Inventory across Docks A, B, and C.
+                        Linear docks are for transient moorage only
+                        and are not shown.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Availability of the information will be  generated with JavaScript -->
+            <div id="availabilityBody"></div>
+
+        </section>
+
+
+        <!-- ========================================
+             SLIP LOCATION SECTION
+        ======================================== -->
+
+        <section class="card">
+
+            <h2>
+                Where the Slips Are
+            </h2>
+
+            <p
+                class="small"
+                style="margin: 4px 0 18px;"
+            >
+                Each dock (A, B, C) has 24 slips arranged
+                the same way.
+            </p>
+
+
+            <div class="grid">
+
+
+                <!-- 26 Foot Slips -->
+                <div class="item">
+
+                    <span class="label">
+                        26 ft slips
+                    </span>
+
+                    <span class="value">
+                        Slips 8–12 and 20–24 on each dock
+                    </span>
+
+                </div>
+
+
+                <!-- 40 Foot Slips -->
+                <div class="item">
+
+                    <span class="label">
+                        40 ft slips
+                    </span>
+
+                    <span class="value">
+                        Slips 4–7 and 16–19 on each dock
+                    </span>
+
+                </div>
+
+
+                <!-- 50 Foot Slips -->
+                <div class="item">
+
+                    <span class="label">
+                        50 ft slips
+                    </span>
+
+                    <span class="value">
+                        Slips 1–3 and 13–15 on each dock
+                    </span>
+
+                </div>
+
+
+                <!-- Linear Docks -->
+                <div class="item">
+
+                    <span class="label">
+                        Linear docks
+                    </span>
+
+                    <span class="value">
+                        Transient moorage only
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================
+             PROTOTYPE NOTICE
+        ======================================== -->
+
+        <div class="notice info">
+
+            <strong>
+                Prototype:
+            </strong>
+
+            These counts are simulated with a prototype data file.
+            The final site should store these values in the official
+            project database.
+
+        </div>
+
+    </main>
+<!-- ========================================
+         UNIVERSAL FOOTER
+    ======================================== -->
+    <footer class="site-footer">
+
+        <div class="footer-container">
+
+            <div class="footer-item">
+                <div class="footer-icon" aria-hidden="true">📍</div>
+                <div>
+                    <h3>VISIT US</h3>
+                    <p>
+                        123 Harbor Way<br>
+                        Moffat Bay, ST 12345
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-item">
+                <div class="footer-icon" aria-hidden="true">📞</div>
+                <div>
+                    <h3>CALL US</h3>
+                    <p>
+                        <a href="tel:+15551234567">(555) 123-4567</a><br>
+                        Mon – Fri: 8am – 5pm
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-item">
+                <div class="footer-icon" aria-hidden="true">📡</div>
+                <div>
+                    <h3>VHF CHANNEL</h3>
+                    <p>
+                        Channel 16<br>
+                        Harbormaster
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-item">
+                <div class="footer-icon" aria-hidden="true">✉</div>
+                <div>
+                    <h3>EMAIL US</h3>
+                    <p>
+                        <a href="mailto:info@moffatbaymarina.com">
+                            info@moffatbaymarina.com
+                        </a><br>
+                        We're here to help!
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>
+                © 2026 Moffat Bay Marina &nbsp;•&nbsp; CSD460 &nbsp;•&nbsp; The Green Team
+            </p>
+        </div>
+
+    </footer>
+
+
+
+    <!-- ========================================
+         JAVASCRIPT
+    ======================================== -->
+
+    <!--
+        Mock marina slip information is stored
+        in the marina-data.js file.
+    -->
+    <script src="marina-data.js"></script>
+
+
+    <script>
+
+        /*
+         * Creates the availability information for
+         * each marina slip size.
+         *
+         * The layout is based on the marina diagram
+         * provided in the project overview.
+         */
+        function row(size) {
+
+            const total = SLIP_INVENTORY[size];
+            const available = availableSlips(size);
+
+
+            /*
+             * Display either the number of available
+             * slips or a fully reserved message.
+             */
+            const badge = available > 0
+                ? '<span class="status">' +
+                    available +
+                    ' available</span>'
+                : '<span class="status cancelled">' +
+                    'Fully reserved</span>';
+
+
+            /*
+             * Return the HTML for the selected
+             * slip size.
+             */
+            return (
+                '<div class="item">' +
+                    '<span class="label">' +
+                        size +
+                        ' ft slips' +
+                    '</span>' +
+
+                    '<span class="value">' +
+                        badge +
+                    '</span>' +
+                '</div>' +
+
+                '<div class="item">' +
+                    '<span class="label">' +
+                        'Reserved / Total' +
+                    '</span>' +
+
+                    '<span class="value">' +
+                        (total - available) +
+                        ' of ' +
+                        total +
+                    '</span>' +
+                '</div>'
+            );
+        }
+
+
+        /*
+         * Builds the availability grid and places
+         * it inside the availabilityBody element.
+         */
+        function render() {
+
+            document.getElementById("availabilityBody").innerHTML =
+                '<div class="grid">' +
+                    row(26) +
+                    row(40) +
+                    row(50) +
+                '</div>';
+        }
+
+
+        /* Display availability when the page loads. */
+        render();
+
+    </script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,404 @@
+/*
+Alexander Baldree
+Max Jankowski
+Aftabur Rahman
+Jordan Dardar
+
+Moffat Bay Marina Project
+The Green Team
+CSD460
+*/
+
+/* ========================================
+   ROOT VARIABLES
+======================================== */
+
+:root {
+    --navy: #061b3a;
+    --gold: #eab53f;
+    --gold-light: #f5c85b;
+    --white: #ffffff;
+    --text: #172033;
+    --border: #d9dde5;
+}
+
+
+/* ========================================
+   GLOBAL STYLES
+======================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Open Sans", Arial, sans-serif;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+nav a,
+.btn {
+    font-family: "Montserrat", Arial, sans-serif;
+}
+
+
+/* ========================================
+   HEADER / NAVIGATION
+======================================== */
+
+header {
+    background: var(--navy);
+    color: var(--white);
+
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.nav-container {
+    max-width: 1400px;
+    min-height: 88px;
+
+    margin: auto;
+    padding: 0 6%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    color: var(--white);
+    text-decoration: none;
+}
+
+.anchor-logo {
+    font-size: 38px;
+}
+
+.brand-name {
+    font-family: "Montserrat", Arial, sans-serif;
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.brand-subtitle {
+    display: block;
+
+    color: var(--gold);
+    font-size: 14px;
+    letter-spacing: 5px;
+
+    margin-top: -3px;
+}
+
+nav ul {
+    list-style: none;
+
+    display: flex;
+    gap: 42px;
+}
+
+nav a {
+    color: var(--white);
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    padding: 10px 0;
+}
+
+nav a:hover,
+nav a.active {
+    color: var(--gold);
+}
+
+
+/* ========================================
+   HERO SECTION
+======================================== */
+
+.hero {
+    min-height: 540px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(2, 18, 42, 0.72),
+            rgba(2, 18, 42, 0.15)
+        ),
+        url("../images/marina_dock.jpeg")
+        center 42% / cover no-repeat;
+
+    display: flex;
+    align-items: center;
+}
+
+.hero-content {
+    width: min(1400px, 100%);
+
+    margin: auto;
+    padding: 80px 6%;
+
+    color: var(--white);
+}
+
+.hero-content h1 {
+    max-width: 700px;
+
+    font-size: clamp(42px, 5.5vw, 72px);
+    line-height: 1.05;
+
+    margin-bottom: 22px;
+}
+
+.gold-line {
+    width: 85px;
+    height: 4px;
+
+    background: var(--gold);
+
+    margin-bottom: 22px;
+}
+
+.hero-content p {
+    font-size: 22px;
+    font-weight: 600;
+
+    margin-bottom: 7px;
+}
+
+.hero-content .tagline {
+    font-size: 19px;
+
+    margin-bottom: 30px;
+}
+
+
+/* ========================================
+   BUTTONS
+======================================== */
+
+.btn {
+    display: inline-block;
+
+    border: 0;
+    padding: 16px 28px;
+
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.btn-primary {
+    background: var(--gold);
+    color: var(--navy);
+}
+
+.btn-primary:hover {
+    background: var(--gold-light);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--navy);
+
+    border: 2px solid var(--navy);
+}
+
+.btn-secondary:hover {
+    background: var(--navy);
+    color: var(--white);
+}
+
+
+/* ========================================
+   FEATURES SECTION
+======================================== */
+
+.features {
+    max-width: 1400px;
+
+    margin: auto;
+
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.feature {
+    padding: 42px 35px;
+
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.feature + .feature {
+    border-left: 1px solid var(--border);
+}
+
+.feature-icon {
+    width: 62px;
+    height: 62px;
+    min-width: 62px;
+
+    border-radius: 50%;
+
+    background: var(--navy);
+    color: var(--white);
+
+    display: grid;
+    place-items: center;
+
+    font-size: 27px;
+}
+
+.feature h3 {
+    color: var(--navy);
+    font-size: 18px;
+
+    margin-bottom: 5px;
+}
+
+.feature p {
+    font-size: 14px;
+}
+
+
+/* ========================================
+   WELCOME SECTION
+======================================== */
+
+.welcome {
+    max-width: 1250px;
+
+    margin: auto;
+    padding: 70px 5%;
+
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 70px;
+    align-items: center;
+}
+
+.eyebrow {
+    color: #c8921e;
+
+    font-family: "Montserrat", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.welcome h2 {
+    color: var(--navy);
+
+    font-size: clamp(34px, 4vw, 50px);
+    line-height: 1.1;
+
+    margin: 7px 0 15px;
+}
+
+.short-line {
+    width: 50px;
+    height: 3px;
+
+    background: var(--gold);
+
+    margin-bottom: 20px;
+}
+
+.welcome p {
+    max-width: 520px;
+
+    margin-bottom: 25px;
+}
+
+.welcome-image {
+    min-height: 290px;
+
+    border-radius: 10px;
+
+    background:
+        url("../images/moffat_beach.jpg")
+        center 67% / cover no-repeat;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+
+/* ========================================
+   RESPONSIVE DESIGN - TABLET
+======================================== */
+
+@media (max-width: 900px) {
+
+    .nav-container {
+        flex-direction: column;
+        padding: 20px 5%;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 18px 25px;
+    }
+
+    .features,
+    .welcome {
+        grid-template-columns: 1fr;
+    }
+
+    .feature + .feature {
+        border-left: 0;
+        border-top: 1px solid var(--border);
+    }
+
+    .welcome {
+        gap: 35px;
+    }
+}
+
+
+/* ========================================
+   RESPONSIVE DESIGN - MOBILE
+======================================== */
+
+@media (max-width: 600px) {
+
+    .hero {
+        min-height: 600px;
+    }
+
+    .hero-content {
+        padding: 60px 7%;
+    }
+
+    .hero-content p {
+        font-size: 18px;
+    }
+
+    .hero-content .tagline {
+        font-size: 16px;
+    }
+}

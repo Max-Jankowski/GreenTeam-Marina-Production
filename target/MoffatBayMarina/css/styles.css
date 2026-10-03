@@ -1,0 +1,1818 @@
+/*
+Alexander Baldree
+Max Jankowski
+Aftabur Rahman
+Jordan Dardar
+
+Moffat Bay Marina Project
+The Green Team
+CSD460
+*/
+
+/* ========================================
+   MOFFAT BAY MARINA
+   MAIN STYLESHEET
+======================================== */
+
+
+/* ========================================
+   ROOT VARIABLES
+======================================== */
+
+:root {
+    --navy: #061b3a;
+    --navy-2: #0c2f58;
+
+    --gold: #eab53f;
+    --gold-light: #f5c85b;
+
+    --white: #ffffff;
+
+    --text: #172033;
+    --muted: #5f6878;
+
+    --border: #d9dde5;
+    --soft: #f5f7fa;
+
+    --success: #237a4b;
+    --success-soft: #eaf7ef;
+
+    --warning: #a66a00;
+    --warning-soft: #fff7e3;
+
+    --danger: #a83232;
+    --danger-soft: #fdecec;
+}
+
+
+/* ========================================
+   GLOBAL RESET
+======================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Open Sans", Arial, sans-serif;
+    color: var(--text);
+    line-height: 1.6;
+    background: var(--white);
+}
+
+h1,
+h2,
+h3,
+nav a,
+.btn,
+.brand-name,
+.eyebrow,
+.label {
+    font-family: "Montserrat", Arial, sans-serif;
+}
+
+a {
+    color: inherit;
+}
+
+
+/* ========================================
+   HEADER / NAVIGATION
+======================================== */
+
+header,
+.site-header {
+    background: var(--navy);
+    color: var(--white);
+
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+
+/*
+   Supports both navigation class names
+   currently used throughout the project.
+*/
+
+.nav-container,
+.nav,
+.header-inner {
+    width: 100%;
+    max-width: 1400px;
+    min-height: 88px;
+
+    margin: auto;
+    padding: 0 6%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
+}
+
+
+/* Marina Brand */
+
+.brand {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    color: var(--white);
+    text-decoration: none;
+}
+
+
+/*
+   Supports both icon class names.
+*/
+
+.anchor-logo,
+.anchor {
+    font-size: 38px;
+    line-height: 1;
+}
+
+
+.brand-name {
+    display: block;
+
+    font-size: 25px;
+    font-weight: 600;
+
+    letter-spacing: 1px;
+}
+
+
+/*
+   Supports both subtitle class names.
+*/
+
+.brand-subtitle,
+.brand-sub {
+    display: block;
+
+    color: var(--gold);
+
+    font-size: 14px;
+    letter-spacing: 5px;
+
+    margin-top: -3px;
+}
+
+
+/* Navigation */
+
+nav ul {
+    list-style: none;
+
+    display: flex;
+
+    gap: 42px;
+}
+
+
+/*
+   Supports navigation links inside or outside <ul>.
+*/
+
+nav a {
+    position: relative;
+
+    display: inline-block;
+
+    color: var(--white);
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    padding: 31px 0 27px;
+
+    transition: color 0.2s ease;
+}
+
+
+nav a:hover,
+nav a.active {
+    color: var(--gold);
+}
+
+
+nav a.active::after {
+    content: "";
+
+    position: absolute;
+
+    height: 2px;
+
+    left: 0;
+    right: 0;
+    bottom: 17px;
+
+    background: var(--gold);
+}
+
+
+/* Prototype Session Indicator */
+
+.session-pill {
+    display: inline-block;
+
+    padding: 7px 12px;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+
+    color: #dce5ef;
+
+    font-size: 11px;
+}
+
+
+/* ========================================
+   HOME PAGE HERO
+======================================== */
+
+.hero {
+    min-height: 540px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(2, 18, 42, 0.76),
+            rgba(2, 18, 42, 0.18)
+        ),
+        url("images/moffat-bay-marina.jpg")
+        center 42% / cover no-repeat,
+        linear-gradient(
+            135deg,
+            #0d3158,
+            #4d6f89
+        );
+
+    display: flex;
+    align-items: center;
+}
+
+
+.hero-content {
+    width: min(1400px, 100%);
+
+    margin: auto;
+    padding: 80px 6%;
+
+    color: var(--white);
+}
+
+
+.hero-content h1 {
+    max-width: 760px;
+
+    font-size: clamp(42px, 5.5vw, 72px);
+    line-height: 1.05;
+
+    margin-bottom: 22px;
+}
+
+
+.gold-line {
+    width: 85px;
+    height: 4px;
+
+    background: var(--gold);
+
+    margin-bottom: 22px;
+}
+
+
+.hero-content p {
+    font-size: 22px;
+    font-weight: 600;
+
+    margin-bottom: 7px;
+}
+
+
+.hero-content .tagline {
+    font-size: 19px;
+
+    margin-bottom: 30px;
+}
+
+
+/* ========================================
+   INTERNAL PAGE HERO
+======================================== */
+
+.page-hero {
+    min-height: 360px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(2, 18, 42, 0.82),
+            rgba(2, 18, 42, 0.28)
+        ),
+        url("images/moffat-bay-marina.jpg")
+        center 50% / cover no-repeat,
+        linear-gradient(
+            135deg,
+            #0d3158,
+            #4d6f89
+        );
+
+    display: flex;
+    align-items: center;
+}
+
+
+.page-hero .hero-content {
+    padding-top: 65px;
+    padding-bottom: 65px;
+}
+
+
+.page-hero .eyebrow {
+    color: var(--gold-light);
+
+    margin-bottom: 8px;
+}
+
+
+.page-hero p {
+    max-width: 720px;
+
+    font-size: 18px;
+    font-weight: 400;
+}
+
+
+/* Smaller Page Hero */
+
+.compact-hero {
+    min-height: 300px;
+}
+
+
+/* ========================================
+   PROTOTYPE HERO
+======================================== */
+
+.hero-compact {
+    max-width: 1250px;
+
+    margin: auto;
+    padding: 65px 5%;
+
+    display: grid;
+    grid-template-columns: 1.4fr 0.8fr;
+
+    gap: 45px;
+    align-items: center;
+}
+
+
+.hero-compact h1 {
+    color: var(--navy);
+
+    font-size: clamp(36px, 5vw, 58px);
+    line-height: 1.08;
+
+    margin: 8px 0 16px;
+}
+
+
+.lead {
+    color: var(--muted);
+
+    font-size: 18px;
+
+    max-width: 760px;
+}
+
+
+/* ========================================
+   EYEBROWS / HEADINGS
+======================================== */
+
+.eyebrow {
+    color: #c8921e;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+
+    text-transform: uppercase;
+}
+
+
+.title {
+    color: var(--navy);
+
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1.1;
+
+    margin: 6px 0 18px;
+}
+
+
+.short-line {
+    width: 50px;
+    height: 3px;
+
+    background: var(--gold);
+
+    margin-bottom: 20px;
+}
+
+
+/* ========================================
+   BUTTONS
+======================================== */
+
+.btn {
+    display: inline-block;
+
+    border: 0;
+    border-radius: 3px;
+
+    padding: 14px 26px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+    text-align: center;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+/*
+   Supports both button naming styles:
+   .btn-primary and .primary
+*/
+
+.btn-primary,
+.btn.primary,
+.primary {
+    background: var(--gold);
+    color: var(--navy);
+}
+
+
+.btn-primary:hover,
+.btn.primary:hover,
+.primary:hover {
+    background: var(--gold-light);
+
+    transform: translateY(-1px);
+}
+
+
+/* Secondary */
+
+.btn-secondary,
+.btn.secondary,
+.secondary {
+    background: transparent;
+    color: var(--navy);
+
+    border: 2px solid var(--navy);
+}
+
+
+.btn-secondary:hover,
+.btn.secondary:hover,
+.secondary:hover {
+    background: var(--navy);
+    color: var(--white);
+}
+
+
+/* Danger */
+
+.btn.danger,
+.danger {
+    background: var(--danger);
+    color: var(--white);
+}
+
+
+.btn.danger:hover,
+.danger:hover {
+    background: #872727;
+}
+
+
+/* Full Width Button */
+
+.btn.full,
+.btn-wide {
+    width: 100%;
+}
+
+
+/* ========================================
+   STANDARD CONTENT CONTAINERS
+======================================== */
+
+.container {
+    width: 100%;
+    max-width: 1250px;
+
+    margin: auto;
+    padding: 65px 5%;
+}
+
+
+.section {
+    width: 100%;
+    max-width: 1250px;
+
+    margin: auto;
+    padding: 70px 5%;
+}
+
+
+.section h2 {
+    color: var(--navy);
+
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.12;
+
+    margin: 7px 0 15px;
+}
+
+
+.section h3 {
+    color: var(--navy);
+
+    margin-bottom: 8px;
+}
+
+
+.section p {
+    margin-bottom: 18px;
+}
+
+
+/* ========================================
+   SPLIT CONTENT
+======================================== */
+
+.split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 65px;
+
+    align-items: center;
+}
+
+
+/* ========================================
+   MARINA IMAGE
+======================================== */
+
+.marina-photo,
+.welcome-image {
+    min-height: 320px;
+
+    border-radius: 10px;
+
+    background:
+        url("images/moffat-bay-marina.jpg")
+        center 67% / cover no-repeat,
+        linear-gradient(
+            135deg,
+            #315976,
+            #84a2b4
+        );
+
+    box-shadow:
+        0 10px 25px
+        rgba(0, 0, 0, 0.14);
+}
+
+
+/* ========================================
+   HOME PAGE FEATURES
+======================================== */
+
+.features {
+    max-width: 1400px;
+
+    margin: auto;
+
+    background: var(--white);
+
+    border-bottom:
+        1px solid
+        var(--border);
+
+    display: grid;
+    grid-template-columns:
+        repeat(3, 1fr);
+}
+
+
+.feature {
+    padding: 42px 35px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 22px;
+}
+
+
+.feature + .feature {
+    border-left:
+        1px solid
+        var(--border);
+}
+
+
+.feature-icon {
+    width: 62px;
+    height: 62px;
+    min-width: 62px;
+
+    border-radius: 50%;
+
+    background: var(--navy);
+    color: var(--white);
+
+    display: grid;
+    place-items: center;
+
+    font-size: 27px;
+}
+
+
+.feature h3 {
+    color: var(--navy);
+
+    font-size: 18px;
+
+    margin-bottom: 5px;
+}
+
+
+.feature p {
+    font-size: 14px;
+}
+
+
+/* ========================================
+   WELCOME SECTION
+======================================== */
+
+.welcome {
+    max-width: 1250px;
+
+    margin: auto;
+    padding: 70px 5%;
+
+    display: grid;
+    grid-template-columns:
+        1fr 1.15fr;
+
+    gap: 70px;
+
+    align-items: center;
+}
+
+
+.welcome h2 {
+    color: var(--navy);
+
+    font-size:
+        clamp(34px, 4vw, 50px);
+
+    line-height: 1.1;
+
+    margin: 7px 0 15px;
+}
+
+
+.welcome p {
+    max-width: 520px;
+
+    margin-bottom: 25px;
+}
+
+
+/* ========================================
+   CARDS
+======================================== */
+
+.card {
+    background: var(--white);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 8px;
+
+    padding: 30px;
+
+    margin-bottom: 28px;
+
+    box-shadow:
+        0 8px 24px
+        rgba(6, 27, 58, 0.07);
+}
+
+
+.card h2,
+.card h3 {
+    color: var(--navy);
+}
+
+
+.card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-bottom: 24px;
+}
+
+
+.small {
+    color: var(--muted);
+
+    font-size: 14px;
+}
+
+
+.soft {
+    background: var(--soft);
+}
+
+
+/* ========================================
+   INFORMATION BAND / CARDS
+======================================== */
+
+.info-band {
+    background: var(--soft);
+
+    border-top:
+        1px solid
+        var(--border);
+
+    border-bottom:
+        1px solid
+        var(--border);
+}
+
+
+.info-grid {
+    max-width: 1250px;
+
+    margin: auto;
+    padding: 55px 5%;
+
+    display: grid;
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 28px;
+}
+
+
+.info-card {
+    background: var(--white);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-top:
+        4px solid
+        var(--gold);
+
+    padding: 28px;
+
+    border-radius: 6px;
+
+    box-shadow:
+        0 7px 18px
+        rgba(6, 27, 58, 0.05);
+}
+
+
+.info-card h3 {
+    color: var(--navy);
+
+    margin-bottom: 10px;
+}
+
+
+.info-card p {
+    color: var(--muted);
+}
+
+
+/* ========================================
+   DATA GRIDS
+======================================== */
+
+.grid {
+    display: grid;
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 16px;
+}
+
+
+.item {
+    background: var(--soft);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 6px;
+
+    padding: 18px 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+.label {
+    color: var(--muted);
+
+    font-size: 12px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+
+.value {
+    color: var(--navy);
+
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+.cost {
+    color: var(--navy);
+
+    font-family:
+        "Montserrat",
+        Arial,
+        sans-serif;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+
+/* Reservation ID */
+
+.id {
+    color: var(--navy);
+
+    background: var(--soft);
+
+    border-radius: 4px;
+
+    padding: 7px 12px;
+
+    font-family:
+        "Montserrat",
+        Arial,
+        sans-serif;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+/* ========================================
+   STATUS BADGES
+======================================== */
+
+.status {
+    display: inline-block;
+
+    width: fit-content;
+
+    background: var(--success-soft);
+    color: var(--success);
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+.status.cancelled {
+    background: var(--danger-soft);
+    color: var(--danger);
+}
+
+
+/* ========================================
+   NOTICES / ALERTS
+======================================== */
+
+.notice {
+    border-radius: 5px;
+
+    padding: 16px 18px;
+
+    margin: 20px 0;
+
+    font-size: 14px;
+}
+
+
+.notice.info {
+    background: #edf5fc;
+
+    border-left:
+        4px solid
+        var(--navy-2);
+
+    color: #24435f;
+}
+
+
+.notice.warning {
+    background: var(--warning-soft);
+
+    border-left:
+        4px solid
+        var(--gold);
+
+    color: #6f4a00;
+}
+
+
+.notice.success {
+    background: var(--success-soft);
+
+    border-left:
+        4px solid
+        var(--success);
+
+    color: #175b37;
+}
+
+
+.notice a {
+    font-weight: 700;
+
+    color: var(--navy);
+}
+
+
+/* ========================================
+   ACTION BUTTON AREA
+======================================== */
+
+.actions,
+.inline-actions {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    margin-top: 24px;
+}
+
+
+/* ========================================
+   CONTACT PAGE
+======================================== */
+
+.contact-grid {
+    display: grid;
+    grid-template-columns:
+        0.9fr 1.1fr;
+
+    gap: 55px;
+
+    align-items: start;
+}
+
+
+.contact-list {
+    display: grid;
+
+    gap: 18px;
+
+    margin-top: 25px;
+}
+
+
+.contact-item {
+    display: flex;
+
+    gap: 16px;
+
+    padding: 20px 0;
+
+    border-bottom:
+        1px solid
+        var(--border);
+}
+
+
+.contact-item:last-child {
+    border-bottom: 0;
+}
+
+
+.contact-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+
+    border-radius: 50%;
+
+    background: var(--navy);
+    color: var(--gold);
+
+    display: grid;
+    place-items: center;
+
+    font-size: 21px;
+}
+
+
+.contact-item h3 {
+    font-size: 16px;
+
+    margin-bottom: 4px;
+}
+
+
+.contact-item a {
+    color: var(--text);
+
+    text-decoration: none;
+}
+
+
+.contact-item a:hover {
+    color: #b77d00;
+}
+
+
+.contact-form {
+    background: var(--white);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 8px;
+
+    padding: 32px;
+
+    box-shadow:
+        0 10px 28px
+        rgba(6, 27, 58, 0.08);
+}
+
+
+/* ========================================
+   FORMS
+======================================== */
+
+.form-row {
+    display: grid;
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 18px;
+}
+
+
+.form-row-three {
+    grid-template-columns:
+        2fr 0.8fr 1fr;
+}
+
+
+.form-group,
+.field {
+    margin-bottom: 18px;
+}
+
+
+label {
+    display: block;
+
+    font-family:
+        "Montserrat",
+        Arial,
+        sans-serif;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    color: var(--navy);
+
+    margin-bottom: 6px;
+}
+
+
+input,
+textarea,
+select {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    border:
+        1px solid
+        #c8ced8;
+
+    border-radius: 4px;
+
+    font: inherit;
+
+    color: var(--text);
+
+    background: var(--white);
+}
+
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline:
+        3px solid
+        rgba(234, 181, 63, 0.20);
+
+    border-color: #c8921e;
+}
+
+
+textarea {
+    min-height: 145px;
+
+    resize: vertical;
+}
+
+
+.form-note,
+.helper {
+    color: var(--muted);
+
+    font-size: 13px;
+
+    margin-top: 8px;
+}
+
+
+.centered {
+    text-align: center;
+}
+
+
+.error,
+.field-feedback {
+    color: var(--danger);
+
+    font-size: 12px;
+
+    margin-top: 5px;
+}
+
+
+.form-divider {
+    height: 1px;
+
+    background: var(--border);
+
+    margin: 30px 0;
+}
+
+
+/* ========================================
+   REGISTRATION FORM
+======================================== */
+
+.form-section {
+    max-width: 1400px;
+}
+
+
+.signup-layout,
+.form-layout {
+    display: grid;
+    grid-template-columns:
+        0.75fr 1.25fr;
+
+    gap: 45px;
+
+    align-items: start;
+}
+
+
+.form-card {
+    background: var(--white);
+}
+
+
+.form-card-heading {
+    display: flex;
+
+    gap: 15px;
+
+    align-items: flex-start;
+
+    margin-bottom: 22px;
+}
+
+
+.step-badge {
+    width: 38px;
+    height: 38px;
+
+    min-width: 38px;
+
+    border-radius: 50%;
+
+    background: var(--navy);
+    color: var(--gold);
+
+    display: grid;
+    place-items: center;
+
+    font-family:
+        "Montserrat",
+        Arial,
+        sans-serif;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+.security-note {
+    background: var(--soft);
+
+    border-left:
+        4px solid
+        var(--gold);
+
+    padding: 18px;
+
+    margin: 25px 0;
+}
+
+
+.security-note ul,
+.rule-list,
+.aside-list {
+    margin:
+        10px 0 0 20px;
+}
+
+
+.security-note li,
+.rule-list li,
+.aside-list li {
+    margin-bottom: 7px;
+}
+
+
+.form-grid {
+    display: grid;
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 18px;
+}
+
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+
+.consent-row {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 10px;
+
+    margin: 20px 0;
+}
+
+
+.consent-row input {
+    width: auto;
+
+    margin-top: 4px;
+}
+
+
+/* ========================================
+   WORKFLOW STEPS
+======================================== */
+
+.workflow-strip {
+    background: var(--soft);
+
+    border-bottom:
+        1px solid
+        var(--border);
+}
+
+
+.workflow-steps {
+    max-width: 1100px;
+
+    margin: auto;
+    padding: 22px 5%;
+
+    display: grid;
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+
+.workflow-step {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    color: var(--muted);
+}
+
+
+.workflow-step > span {
+    width: 34px;
+    height: 34px;
+
+    min-width: 34px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    border:
+        2px solid
+        var(--border);
+
+    background: var(--white);
+
+    font-weight: 700;
+}
+
+
+.workflow-step.active {
+    color: var(--navy);
+}
+
+
+.workflow-step.active > span {
+    background: var(--navy);
+
+    border-color: var(--navy);
+
+    color: var(--gold);
+}
+
+
+.workflow-step small {
+    display: block;
+
+    color: var(--muted);
+}
+
+
+/* ========================================
+   LOGIN / VERIFICATION
+======================================== */
+
+.center-card {
+    max-width: 700px;
+
+    margin:
+        55px auto;
+
+    text-align: center;
+}
+
+
+.hidden {
+    display: none;
+}
+
+
+.prototype-badge {
+    background: var(--soft);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-top:
+        4px solid
+        var(--gold);
+
+    border-radius: 6px;
+
+    padding: 24px;
+}
+
+
+.prototype-badge strong {
+    color: var(--navy);
+
+    font-family:
+        "Montserrat",
+        Arial,
+        sans-serif;
+}
+
+
+.prototype-badge p {
+    color: var(--muted);
+
+    margin-top: 8px;
+
+    font-size: 14px;
+}
+
+
+.icon-circle {
+    width: 65px;
+    height: 65px;
+
+    margin:
+        0 auto 18px;
+
+    border-radius: 50%;
+
+    display: grid;
+    place-items: center;
+
+    background: var(--navy);
+    color: var(--gold);
+
+    font-size: 28px;
+}
+
+
+.code-box {
+    background: var(--soft);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 4px;
+
+    padding: 13px;
+
+    margin: 10px 0 20px;
+
+    color: var(--navy);
+
+    font-family:
+        "Montserrat",
+        Arial,
+        sans-serif;
+
+    font-weight: 700;
+}
+
+
+.stack {
+    display: grid;
+
+    gap: 18px;
+}
+
+
+/* ========================================
+   PASSWORD STRENGTH
+======================================== */
+
+.password-meter {
+    height: 6px;
+
+    background: var(--border);
+
+    border-radius: 5px;
+
+    overflow: hidden;
+
+    margin-top: 8px;
+}
+
+
+.password-meter span {
+    display: block;
+
+    width: 0;
+    height: 100%;
+
+    background: var(--gold);
+
+    transition: width 0.3s ease;
+}
+
+
+/* ========================================
+   PUBLIC PAGE NOTICE
+======================================== */
+
+.public-note {
+    background: #fff8e7;
+
+    border-left:
+        4px solid
+        var(--gold);
+
+    padding: 18px 20px;
+
+    margin-top: 25px;
+}
+
+
+/* =========================
+   Moffat Bay Footer
+   ========================= */
+
+.footer {
+  margin-top: 50px;
+  padding: 28px;
+  background: var(--navy-2);
+  color: white;
+  border-top: 4px solid #f2b632;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-anchor {
+  font-size: 42px;
+  line-height: 1;
+  color: #f2b632;
+}
+
+.footer-brand strong {
+  display: block;
+  color: white;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+.footer-brand span {
+  display: block;
+  color: #f2b632;
+  font-size: 12px;
+  letter-spacing: 4px;
+  margin-top: 3px;
+}
+
+.footer-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  color: #dce8ef;
+  font-size: 13px;
+}
+
+.footer-meta {
+  color: #b9cad4;
+  font-size: 12px;
+  text-align: right;
+}
+
+@media (max-width: 860px) {
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-contact {
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .footer-meta {
+    text-align: left;
+  }
+}
+
+/*
+   Supports prototype pages that only
+   use <footer class="footer">.
+*/
+
+.footer:not(:has(.footer-container)) {
+    text-align: center;
+
+    padding: 22px;
+}
+
+
+/* ========================================
+   TABLET RESPONSIVE DESIGN
+======================================== */
+
+@media (max-width: 900px) {
+
+    .nav-container,
+    .nav,
+    .header-inner {
+        flex-direction: column;
+
+        padding: 20px 5%;
+    }
+
+
+    nav ul {
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+        gap: 0 25px;
+    }
+
+
+    nav {
+        text-align: center;
+    }
+
+
+    nav a {
+        padding: 10px 0 14px;
+
+        margin: 0 10px;
+    }
+
+
+    nav a.active::after {
+        bottom: 7px;
+    }
+
+
+    .features,
+    .split,
+    .info-grid,
+    .contact-grid,
+    .footer-container,
+    .signup-layout,
+    .form-layout,
+    .hero-compact {
+        grid-template-columns: 1fr;
+    }
+
+
+    .feature + .feature {
+        border-left: 0;
+
+        border-top:
+            1px solid
+            var(--border);
+    }
+
+
+    .section,
+    .container {
+        padding-top: 55px;
+        padding-bottom: 55px;
+    }
+
+
+    .workflow-steps {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* ========================================
+   MOBILE RESPONSIVE DESIGN
+======================================== */
+
+@media (max-width: 600px) {
+
+    .hero {
+        min-height: 600px;
+    }
+
+
+    .hero-content {
+        padding: 60px 7%;
+    }
+
+
+    .hero-content p {
+        font-size: 18px;
+    }
+
+
+    .hero-content .tagline {
+        font-size: 16px;
+    }
+
+
+    .page-hero {
+        min-height: 320px;
+    }
+
+
+    .form-row,
+    .form-row-three,
+    .form-grid,
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .contact-form,
+    .card {
+        padding: 24px;
+    }
+
+
+    .actions,
+    .inline-actions {
+        flex-direction: column;
+    }
+
+
+    .actions .btn,
+    .inline-actions .btn {
+        width: 100%;
+    }
+
+
+    .brand-name {
+        font-size: 21px;
+    }
+
+
+    .brand-subtitle,
+    .brand-sub {
+        font-size: 12px;
+
+        letter-spacing: 4px;
+    }
+
+}

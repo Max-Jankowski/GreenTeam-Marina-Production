@@ -1,0 +1,150 @@
+/* ==========================================================
+   ISSUE #65 - CONTACT INFORMATION MERGED INTO ABOUT US
+   Employee image created with ChatGPT and stored locally.
+   ========================================================== */
+
+.about-contact-section {
+    background: #ffffff;
+    border-top: 1px solid #e2e7ec;
+    border-bottom: 1px solid #e2e7ec;
+    padding: 34px 24px 0;
+    overflow: hidden;
+}
+
+.about-contact-layout {
+    max-width: 1050px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: end;
+    gap: 42px;
+}
+
+.about-contact-employee {
+    align-self: end;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.about-contact-employee img {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    object-fit: contain;
+    margin: 0;
+}
+
+.about-contact-form-card {
+    align-self: end;
+    width: 100%;
+    max-width: 430px;
+    margin-bottom: 38px;
+    background: #ffffff;
+    border: 1px solid #d7dee7;
+    border-radius: 6px;
+    padding: 24px;
+    box-sizing: border-box;
+    box-shadow: 0 8px 24px rgba(7, 36, 73, 0.08);
+}
+
+.about-contact-form-card h3 {
+    margin: 0 0 6px;
+    color: #06234b;
+    font-size: 20px;
+}
+
+.about-contact-form-card > p {
+    margin: 0 0 20px;
+    color: #66778d;
+    font-size: 13px;
+}
+
+.about-contact-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.about-contact-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 14px;
+}
+
+.about-contact-field label {
+    margin-bottom: 6px;
+    color: #06234b;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.about-contact-field input,
+.about-contact-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #cbd5df;
+    border-radius: 2px;
+    background: #ffffff;
+    padding: 9px;
+    font: inherit;
+}
+
+.about-contact-field textarea {
+    resize: vertical;
+    min-height: 88px;
+}
+
+.about-contact-button {
+    border: 0;
+    background: #f3b62f;
+    color: #06234b;
+    padding: 12px 24px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+@media (max-width: 900px) {
+    .about-contact-layout {
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+    }
+
+    .about-contact-employee img {
+        max-width: 420px;
+    }
+
+    .about-contact-form-card {
+        margin-bottom: 28px;
+    }
+}
+
+@media (max-width: 650px) {
+    .about-contact-section {
+        padding: 30px 18px 0;
+    }
+
+    .about-contact-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .about-contact-employee {
+        justify-content: center;
+    }
+
+    .about-contact-employee img {
+        max-width: 340px;
+    }
+
+    .about-contact-form-card {
+        max-width: none;
+        margin-bottom: 28px;
+    }
+
+    .about-contact-form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}

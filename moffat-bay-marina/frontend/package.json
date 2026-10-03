@@ -1,0 +1,11 @@
+{
+  "name": "moffat-bay-marina",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "echo \"No frontend\"",
+    "build": "echo \"No frontend\""
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
