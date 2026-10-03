@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Goes at: src/main/webapp/META-INF/context.xml
+    (new file - there isn't one yet; Maven packages it straight into the WAR)
+
+    Why: GitHub Pages and the Pi backend are different origins, so the
+    JSESSIONID cookie needs SameSite=None to be sent on a cross-origin
+    fetch. Browsers only honor SameSite=None when the cookie is ALSO
+    marked Secure - see the server.xml note for the other half of that.
+-->
+<Context>
+    <CookieProcessor className="org.apache.tomcat.util.http.Rfc6265CookieProcessor"
+                      sameSiteCookies="none" />
+</Context>

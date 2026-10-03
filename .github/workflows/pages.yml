@@ -1,0 +1,50 @@
+name: Deploy Pages
+
+# Goes at: .github/workflows/pages.yml
+# Only fires when the static site actually changed, or on demand from
+# the Actions tab (workflow_dispatch) - editing Java/pom.xml alone
+# won't trigger a redeploy.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/main/webapp/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Copies just the browser-facing files into a staging folder,
+      # leaving META-INF/context.xml and WEB-INF behind - those are
+      # Tomcat-only deployment descriptors with no purpose on a static
+      # Pages site, so there's no reason to publish them publicly.
+      - name: Stage static site
+        run: |
+          mkdir -p _site
+          rsync -av --exclude='META-INF' --exclude='WEB-INF' src/main/webapp/ _site/
+
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
