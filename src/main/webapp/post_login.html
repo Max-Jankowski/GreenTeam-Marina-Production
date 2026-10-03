@@ -270,24 +270,6 @@ Max Jankowski
 
         </section>
 
-
-        <!-- ========================================
-             Informing Client of Prototype
-        ======================================== -->
-
-        <div class="notice info">
-
-            <strong>
-                Prototype:
-            </strong>
-
-            In the final application, this page will greet the
-            customer using their account record from the database
-            and the logout action will end a real server-side
-            session.
-
-        </div>
-
     </main>
 <!-- ========================================
          UNIVERSAL FOOTER
@@ -355,16 +337,9 @@ Max Jankowski
 
 
 
-
 <script>
-    // FIXED 10-3-26: this used to fetch a RELATIVE "current-user" URL and
-    // credentials:"same-origin" - since this page is served from GitHub
-    // Pages and the backend lives on a different origin (Tailscale Funnel),
-    // that request was actually going to max-jankowski.github.io/current-user
-    // (which doesn't exist), always failing, and always falling back to the
-    // literal "Customer" placeholder in the catch block below. Same fix as
-    // login.html: absolute API_BASE URL + credentials:"include" so the
-    // session cookie from LoginServlet actually gets sent.
+    // corrected api base call to the now correct url, much harder to find then one thinks 
+	
     const API_BASE = "https://obsidianserver.tail969ab5.ts.net/MoffatBayMarina";
 
     document.addEventListener("DOMContentLoaded", async function () {
