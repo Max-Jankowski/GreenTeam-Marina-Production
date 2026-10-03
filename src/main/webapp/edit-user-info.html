@@ -302,6 +302,8 @@ CSD460 -->
 
 
 <script>
+    const API_BASE = "https://obsidianserver.tail969ab5.ts.net/MoffatBayMarina";
+
     /*
         Logged-in customer information page.
 
@@ -552,8 +554,9 @@ CSD460 -->
 
             statusMessage.textContent =
                 "We could not load your account information. " +
-                "Make sure the account-info servlet can connect to the Moffat Bay database and " +
-                "that you are logged in.";
+                (error && error.message
+                    ? error.message
+                    : "Please verify that you are logged in and the account-info API is available.");
 
             statusMessage.classList.add("error");
         }
