@@ -1,0 +1,801 @@
+<!--
+Alexander Baldree
+Max Jankowski
+Aftabur Rahman
+Jordan Dardar
+
+Moffat Bay Marina Project
+The Green Team
+CSD460
+-->
+
+<!--
+    Max Jankowski
+    Green Team - Moffat Bay Marina
+
+    Used Aftab's landing page as a template.
+    This page points to styles2.css, so make sure styles2.css
+    is located in the same folder when running the project locally.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Slip Pricing | Moffat Bay Marina</title>
+
+
+    <!-- ========================================
+         GOOGLE FONTS
+    ======================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- ========================================
+         EXTERNAL STYLESHEET
+    ======================================== -->
+
+    <link
+        rel="stylesheet"
+        href="css/styles2.css"
+    >
+
+
+    <!-- Universal Footer Stylesheet - load last -->
+    <link rel="stylesheet" href="css/footer.css">
+</head>
+
+
+<body>
+
+    <!-- ========================================
+         HEADER / NAVIGATION
+    ======================================== -->
+
+    <header>
+
+        <div class="nav">
+
+            <!-- Marina Brand -->
+            <a
+                class="brand"
+                href="reservation.html"
+            >
+
+                <span class="anchor">
+                    ⚓
+                </span>
+
+                <span>
+
+                    <span class="brand-name">
+                        MOFFAT BAY
+                    </span>
+
+                    <span class="brand-sub">
+                        MARINA
+                    </span>
+
+                </span>
+
+            </a>
+
+
+            <!-- Main Navigation -->
+            <nav aria-label="Main navigation">
+
+                <ul>
+
+                    <li>
+                        <a href="index.html">
+                            HOME
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            class="active"
+                            href="pricing.html"
+                            aria-current="page"
+                        >
+                            PRICING
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="availability.html">
+                            AVAILABILITY
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="waitlist.html">
+                            WAIT LIST
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="reservation.html">
+                            RESERVATION
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- ========================================
+         MAIN CONTENT
+    ======================================== -->
+
+    <main class="container">
+
+
+        <!-- ========================================
+             PAGE TITLE
+        ======================================== -->
+
+        <div class="eyebrow">
+            SLIP PRICING
+        </div>
+
+        <h1 class="title">
+            Estimate Your Monthly Cost
+        </h1>
+
+        <div class="gold-line"></div>
+
+
+        <!-- ========================================
+             COST ESTIMATOR
+        ======================================== -->
+
+        <section class="card">
+
+            <div class="card-head">
+
+                <div>
+
+                    <h2>
+                        Cost Estimator
+                    </h2>
+
+                    <p class="small">
+                        Monthly rate is $10.50 per foot of boat length.
+                        Electric power is now optional at $10/month.
+                        Boats are assigned the smallest slip that fits.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Boat Length Input -->
+            <div
+                style="
+                    display: grid;
+                    grid-template-columns: 1fr auto;
+                    gap: 16px;
+                    align-items: end;
+                    max-width: 520px;
+                "
+            >
+
+                <div>
+
+                    <label
+                        class="label"
+                        for="len"
+                    >
+                        Boat Length (feet)
+                    </label>
+
+                    <input
+                        id="len"
+                        type="number"
+                        min="1"
+                        max="60"
+                        placeholder="34"
+                        style="
+                            width: 100%;
+                            padding: 12px;
+                            border: 1px solid #cbd1dc;
+                            border-radius: 6px;
+                        "
+                    >
+
+                </div>
+
+
+                <button
+                    class="btn primary"
+                    type="button"
+                    onclick="estimate()"
+                >
+                    CALCULATE
+                </button>
+
+            </div>
+
+            <!-- electric is now optional -->
+            <div style="margin-top: 16px;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 14px;">
+                    <input type="checkbox" id="electricIncluded" onchange="estimate()">
+                    Include electric service (+$10/month)
+                </label>
+            </div>
+
+        </section>
+
+
+        <!-- ========================================
+             ESTIMATE RESULTS
+        ======================================== -->
+
+        <section
+            class="card"
+            id="result"
+            style="display: none;"
+        >
+
+            <div class="card-head">
+
+                <div>
+
+                    <h2>
+                        Your Estimate
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="grid">
+
+
+                <!-- Boat Length -->
+                <div class="item">
+
+                    <span class="label">
+                        Boat Length
+                    </span>
+
+                    <span
+                        class="value"
+                        id="rBoat"
+                    ></span>
+
+                </div>
+
+
+                <!-- Required Slip Size -->
+                <div class="item">
+
+                    <span class="label">
+                        Required Slip Size
+                    </span>
+
+                    <span
+                        class="value"
+                        id="rSlip"
+                    ></span>
+
+                </div>
+
+
+                <!-- Slip Rate changed from 10 to 10.5 to reflect 5% increase -->
+                <div class="item">
+
+                    <span class="label">
+                        Slip Rate ($10.50 / ft)
+                    </span>
+
+                    <span
+                        class="value"
+                        id="rRate"
+                    ></span>
+
+                </div>
+
+
+                <!-- Electric Power -->
+                <div class="item">
+
+                    <span class="label">
+                        Electric Service
+                    </span>
+
+                    <!-- This was a static 10 a month, now it all depends on the user input as to the opt in electric feature. Added Max 9-10 -->
+                    <span class="value" id="rElectric"></span>
+
+                </div>
+
+
+                <!-- Availability -->
+                <div class="item">
+
+                    <span class="label">
+                        Slips Available
+                    </span>
+
+                    <span
+                        class="value"
+                        id="rAvail"
+                    ></span>
+
+                </div>
+
+
+                <!-- Estimated Cost -->
+                <div class="item">
+
+                    <span class="label">
+                        Estimated Monthly Cost
+                    </span>
+
+                    <span
+                        class="cost"
+                        id="rCost"
+                    ></span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Wait List Messages -->
+            <div id="waitlistArea"></div>
+
+
+            <!-- Result Buttons -->
+            <div
+                class="actions"
+                id="resultActions"
+            ></div>
+
+        </section>
+
+
+        <!-- ========================================
+             SAMPLE MONTHLY RATES
+        ======================================== -->
+
+        <section class="card">
+
+            <h2>
+                Sample Monthly Rates
+            </h2>
+
+            <p
+                class="small"
+                style="margin: 4px 0 18px;"
+            >
+                Cost is based on your boat length, not the slip size.
+                Figures below are base rate only - add $10/month if
+                you'd like electric service.
+            </p>
+
+
+            <div class="grid">
+
+
+                <!-- 26 Foot Boat -->
+                <div class="item">
+
+                    <span class="label">
+                        26 ft slip • 26 ft boat
+                    </span>
+
+                    <span class="value">
+                        $273 / month
+                    </span>
+
+                </div>
+
+
+                <!-- 34 Foot Boat -->
+                <div class="item">
+
+                    <span class="label">
+                        40 ft slip • 34 ft boat
+                    </span>
+
+                    <span class="value">
+                        $357 / month
+                    </span>
+
+                </div>
+
+
+                <!-- 40 Foot Boat -->
+                <div class="item">
+
+                    <span class="label">
+                        40 ft slip • 40 ft boat
+                    </span>
+
+                    <span class="value">
+                        $420 / month
+                    </span>
+
+                </div>
+
+
+                <!-- 50 Foot Boat -->
+                <div class="item">
+
+                    <span class="label">
+                        50 ft slip • 50 ft boat
+                    </span>
+
+                    <span class="value">
+                        $525 / month
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================
+             PROTOTYPE NOTICE
+        ======================================== -->
+
+        <div class="notice info">
+
+            <strong>
+                Prototype:
+            </strong>
+
+            Availability and wait list numbers are simulated
+            with localStorage. Database integration will be
+            added later.
+
+        </div>
+
+    </main>
+<!-- ========================================
+         UNIVERSAL FOOTER
+    ======================================== -->
+    <footer class="site-footer">
+
+        <div class="footer-container">
+
+            <div class="footer-item">
+                <div class="footer-icon" aria-hidden="true">📍</div>
+                <div>
+                    <h3>VISIT US</h3>
+                    <p>
+                        123 Harbor Way<br>
+                        Moffat Bay, ST 12345
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-item">
+                <div class="footer-icon" aria-hidden="true">📞</div>
+                <div>
+                    <h3>CALL US</h3>
+                    <p>
+                        <a href="tel:+15551234567">(555) 123-4567</a><br>
+                        Mon – Fri: 8am – 5pm
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-item">
+                <div class="footer-icon" aria-hidden="true">📡</div>
+                <div>
+                    <h3>VHF CHANNEL</h3>
+                    <p>
+                        Channel 16<br>
+                        Harbormaster
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-item">
+                <div class="footer-icon" aria-hidden="true">✉</div>
+                <div>
+                    <h3>EMAIL US</h3>
+                    <p>
+                        <a href="mailto:info@moffatbaymarina.com">
+                            info@moffatbaymarina.com
+                        </a><br>
+                        We're here to help!
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>
+                © 2026 Moffat Bay Marina &nbsp;•&nbsp; CSD460 &nbsp;•&nbsp; The Green Team
+            </p>
+        </div>
+
+    </footer>
+
+
+
+    <!-- ========================================
+         EXTERNAL JAVASCRIPT
+    ======================================== -->
+
+    <!--
+        marina-data.js contains the functions and
+        prototype marina slip data used by this page.
+    -->
+    <script src="js/marina-data.js"></script>
+
+
+    <!-- ========================================
+         PRICING PAGE JAVASCRIPT
+    ======================================== -->
+
+    <script>
+
+        /*
+         * Takes the user's boat length and calculates:
+         *
+         * - Required slip size
+         * - Monthly slip rate
+         * - Available slips
+         * - Estimated monthly cost
+         *
+         * The smallest available slip that fits the
+         * customer's boat is selected.
+         */
+        function estimate() {
+
+            const len = parseInt(
+                document.getElementById("len").value,
+                10
+            );
+
+            const resultBox =
+                document.getElementById("result");
+
+            const waitlistArea =
+                document.getElementById("waitlistArea");
+
+            const resultActions =
+                document.getElementById("resultActions");
+
+
+            /* Display the results section. */
+            resultBox.style.display = "block";
+
+
+            /*
+             * Determine the smallest slip size
+             * capable of holding the boat.
+             */
+            const size = requiredSlipSize(len);
+
+
+            /*
+             * Handle invalid boat lengths or boats
+             * that are too large for the marina.
+             */
+            if (!size) {
+
+                waitlistArea.innerHTML =
+                    '<div class="notice warning" style="margin-top: 20px;">' +
+
+                    (
+                        isNaN(len) || len <= 0
+                            ? 'Enter a boat length in feet to calculate an estimate.'
+                            : 'Our largest slips are 50 ft. Boats over 50 ft cannot be accommodated for long-term moorage — please contact the harbormaster.'
+                    ) +
+
+                    '</div>';
+
+
+                resultActions.innerHTML = "";
+
+
+                document.querySelector(
+                    "#result .grid"
+                ).style.display = "none";
+
+
+                return;
+            }
+
+
+            /*
+             * Show the results grid when valid
+             * information has been entered.
+             */
+            document.querySelector(
+                "#result .grid"
+            ).style.display = "";
+
+
+            /* Get current availability and cost. */
+            const available = availableSlips(size);           
+            const electricOn = document.getElementById("electricIncluded").checked; // the elec opt in check box is read and passed to monthlyCost
+            const cost = monthlyCost(len, electricOn);
+
+
+            /* Boat length */
+            document.getElementById(
+                "rBoat"
+            ).textContent = len + " ft";
+
+
+            /* Required slip size */
+            document.getElementById(
+                "rSlip"
+            ).textContent = size + " ft";
+
+
+            /* Monthly slip rate */
+            document.getElementById(
+                "rRate"
+            ).textContent =
+                "$" +
+                (len * RATE_PER_FOOT) +
+                " / month";
+
+
+            /* Slip availability */
+            document.getElementById(
+                "rAvail"
+            ).innerHTML =
+                available > 0
+                    ? '<span class="status">' +
+                        available +
+                        ' available</span>'
+                    : '<span class="status cancelled">' +
+                        'Fully reserved</span>';
+
+
+           
+            document.getElementById( // added the electric service selection. if checkbox selected then the 10 is added, instead of always on, 9-10 Max
+                "rElectric"
+            ).innerHTML = electricOn
+                ? '<span class="status">Included (+$10/mo)</span>'
+                : '<span class="status cancelled">Not included</span>';
+
+
+            /* Estimated monthly cost */
+            document.getElementById(
+                "rCost"
+            ).textContent =
+                "$" +
+                cost +
+                " / month";
+
+
+            /*
+             * If a slip is available, allow the user
+             * to continue to the reservation page.
+             */
+            if (available > 0) {
+
+                waitlistArea.innerHTML = "";
+
+                resultActions.innerHTML =
+                    '<a class="btn primary" href="reservation.html">' +
+                        'RESERVE A SLIP' +
+                    '</a>';
+            }
+
+
+            /*
+             * If no slips are available, display the
+             * option to join the wait list.
+             */
+            else {
+
+                waitlistArea.innerHTML =
+                    '<div class="notice warning" style="margin-top: 20px;">' +
+
+                        '<strong>' +
+                            'No ' +
+                            size +
+                            ' ft slips available.' +
+                        '</strong> ' +
+
+                        'You can join the wait list and we will ' +
+                        'contact you when a slip opens up.' +
+
+                    '</div>';
+
+
+                resultActions.innerHTML =
+                    '<button class="btn secondary" ' +
+                        'onclick="addToWaitlist(' +
+                        size +
+                        ')">' +
+
+                        'JOIN ' +
+                        size +
+                        ' FT WAIT LIST' +
+
+                    '</button>';
+            }
+
+        }
+
+
+        /*
+         * Adds the customer to the selected slip-size
+         * wait list using the joinWaitlist() function
+         * from marina-data.js.
+         */
+        function addToWaitlist(size) {
+
+            const position = joinWaitlist(size);
+
+
+            document.getElementById(
+                "waitlistArea"
+            ).innerHTML =
+
+                '<div class="notice success" style="margin-top: 20px;">' +
+
+                    '<strong>' +
+                        'Added to wait list.' +
+                    '</strong> ' +
+
+                    'You are number ' +
+                    position +
+                    ' on the ' +
+                    size +
+                    ' ft wait list. ' +
+
+                    'Your reservation request has been cancelled ' +
+                    'per marina policy.' +
+
+                '</div>';
+
+
+            document.getElementById(
+                "resultActions"
+            ).innerHTML =
+
+                '<a class="btn secondary" href="waitlist.html">' +
+                    'VIEW WAIT LISTS' +
+                '</a>';
+        }
+
+    </script>
+
+</body>
+
+</html>
