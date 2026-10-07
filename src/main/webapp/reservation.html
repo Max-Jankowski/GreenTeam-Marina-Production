@@ -612,8 +612,33 @@ CSD460
 
         document.addEventListener(
             "DOMContentLoaded",
-            function () {
+           async function () {
+try {
+    const authResponse = await fetch(API_BASE + "/current-user", {
+        method: "GET",
+        credentials: "include",
+        cache: "no-store",
+        headers: {
+            "Accept": "application/json"
+        }
+    });
 
+    const authData = await authResponse.json();
+
+    if (!authResponse.ok || !authData.ok) {
+        window.location.href =
+            "login.html?return=" +
+            encodeURIComponent("reservation.html");
+        return;
+    }
+
+} catch (error) {
+    console.error("Unable to verify customer session:", error);
+    window.location.href =
+        "login.html?return=" +
+        encodeURIComponent("reservation.html");
+    return;
+}
                 const form =
                     document.getElementById(
                         "reservationForm"
@@ -671,60 +696,46 @@ CSD460
                  * Load registration information when
                  * registration was completed previously.
                  */
-                function loadRegistration() {
+                 async function loadRegistration() {
+    try {
+        const response = await fetch(API_BASE + "/account-info", {
+            method: "GET",
+            credentials: "include",
+            cache: "no-store",
+            headers: {
+                "Accept": "application/json"
+            }
+        });
 
-                    let customer = null;
+        const data = await response.json();
 
-                    try {
-                        customer = JSON.parse(
-                            localStorage.getItem(
-                                "moffatBayCustomer"
-                            )
-                        );
-                    }
-                    catch (error) {}
+        if (!response.ok || !data.ok) {
+            if (response.status === 401) {
+                window.location.href =
+                    "login.html?return=" +
+                    encodeURIComponent("reservation.html");
+            }
+            return;
+        }
 
+        email.value =
+            sessionStorage.getItem("moffatLoggedInEmail") || "";
 
-                    if (customer) {
+        boatName.value =
+            data.boatName || "";
 
-                        email.value =
-                            customer.email || "";
+        boatLength.value =
+            data.boatSize == null ? "" : data.boatSize;
 
-                        if (customer.boat) {
-                            boatName.value =
-                                customer.boat.name || "";
+        updateEstimate();
 
-                            boatLength.value =
-                                customer.boat.length || "";
-                        }
-                    }
-
-
-                    try {
-                        const prototypeCustomer =
-                            JSON.parse(
-                                localStorage.getItem(
-                                    "moffatBayPrototypeCustomer"
-                                )
-                            );
-
-                        if (
-                            !customer &&
-                            prototypeCustomer
-                        ) {
-                            email.value =
-                                prototypeCustomer.email || "";
-
-                            boatName.value =
-                                prototypeCustomer.boatName || "";
-
-                            boatLength.value =
-                                prototypeCustomer.boatLength || "";
-                        }
-                    }
-                    catch (error) {}
-                }
-
+    } catch (error) {
+        console.error(
+            "Unable to load customer reservation information:",
+            error
+        );
+    }
+}
 
                 /*
                  * Update calculated slip size and price.
@@ -896,9 +907,7 @@ CSD460
                     }
                 );
 
-
-                loadRegistration();
-                updateEstimate();
+               await loadRegistration();
             }
         );
 
