@@ -722,7 +722,7 @@ try {
             return;
         }
 
-        email.value = data.email || "";
+        email.value = sessionStorage.getItem("moffatLoggedInEmail") || "";
 
         boatName.value =
             data.boatName || "";
