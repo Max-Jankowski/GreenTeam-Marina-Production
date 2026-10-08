@@ -153,6 +153,7 @@ CSD460
             <form
                 id="reservationForm"
                 novalidate
+				hidden
             >
 
                 <div class="grid">
@@ -728,6 +729,7 @@ try {
             data.boatSize == null ? "" : data.boatSize;
 
         updateEstimate();
+		form.hidden = false;
 
     } catch (error) {
         console.error(
@@ -908,7 +910,8 @@ try {
                 );
 
                await loadRegistration();
-            }
+			   
+			               }
         );
 
     </script>
