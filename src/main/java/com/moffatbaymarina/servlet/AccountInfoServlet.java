@@ -59,6 +59,7 @@ public class AccountInfoServlet extends HttpServlet {
                 "SELECT "
               + "c.first_name, "
               + "c.last_name, "
+			  + "c.email, "
               + "b.boat_name, "
               + "b.boat_length_ft, "
               + "st.size_ft AS slip_size_ft, "
@@ -86,6 +87,7 @@ public class AccountInfoServlet extends HttpServlet {
                 "SELECT "
               + "c.first_name, "
               + "c.last_name, "
+			  + "c.email, "
               + "b.boat_name, "
               + "b.boat_length_ft, "
               + "st.size_ft AS slip_size_ft, "
@@ -135,6 +137,7 @@ public class AccountInfoServlet extends HttpServlet {
 
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
+				String customerEmail = rs.getString("email");
                 String boatName = rs.getString("boat_name");
 
                 BigDecimal boatSize =
@@ -156,6 +159,7 @@ public class AccountInfoServlet extends HttpServlet {
                       + "\"ok\":true,"
                       + "\"firstName\":" + jsonString(firstName) + ","
                       + "\"lastName\":" + jsonString(lastName) + ","
+					  + "\"email\":" + jsonString(customerEmail) + ","
                       + "\"boatName\":" + jsonString(boatName) + ","
                       + "\"boatSize\":" + jsonNumber(boatSize) + ","
                       + "\"slipSize\":" + jsonNumber(slipSize) + ","
