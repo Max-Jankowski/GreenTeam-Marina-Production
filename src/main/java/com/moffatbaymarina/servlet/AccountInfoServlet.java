@@ -4,6 +4,8 @@
 package com.moffatbaymarina.servlet;
 
 import com.moffatbaymarina.config.DatabaseConnection;
+import com.moffatbaymarina.dao.BoatDAO;
+import com.moffatbaymarina.model.Boat;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
