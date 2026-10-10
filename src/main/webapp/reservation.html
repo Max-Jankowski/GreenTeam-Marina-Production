@@ -343,20 +343,7 @@ CSD460
             </form>
 
         </section>
-
-
-        <div class="notice info">
-
-            <strong>
-                Prototype:
-            </strong>
-
-            Reservations are saved to the database under the
-            currently logged-in customer account.
-
-        </div>
-
-    </main>
+</main>
 
 
     <!-- ========================================
@@ -426,7 +413,7 @@ CSD460
     <script>
 
         /* ========================================
-           SHARED RESERVATION PROTOTYPE FUNCTIONS
+           SHARED RESERVATION  FUNCTIONS
         ======================================== */
 
         const RESERVATION_KEY = "moffatBayReservations";
@@ -654,7 +641,6 @@ CSD460
                     );
 
 
-
                 const query = new URLSearchParams(window.location.search);
                 const preferredSlip = query.get("slip");
                 const preferredSlipSize = Number(query.get("slipSize"));
@@ -757,7 +743,7 @@ CSD460
 
                         slipSize.textContent =
                             length > 50
-                                ? "Maximum prototype size is 50 ft"
+                                ? "Maximum  size is 50 ft"
                                 : "Enter boat length";
 
                         cost.textContent =

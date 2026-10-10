@@ -358,7 +358,7 @@ CSD460 -->
     function firstAvailable(object, keys) {
         for (const key of keys) {
             if (
-                Object.prototype.hasOwnProperty.call(object, key) &&
+                Object..hasOwnProperty.call(object, key) &&
                 object[key] !== null &&
                 object[key] !== undefined &&
                 String(object[key]).trim() !== ""
