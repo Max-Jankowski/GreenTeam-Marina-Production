@@ -1,7 +1,5 @@
 package com.moffatbaymarina.config;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -10,31 +8,24 @@ import java.util.Properties;
 /**
  * Central database connection utility for Moffat Bay Marina.
  *
- * Reads connection settings from src/main/resources/db.properties.
+ * Connection settings come from environment variables (MARINA_DB_URL,
+ * MARINA_DB_USER, MARINA_DB_PASSWORD) or an optional local, uncommitted
+ * db.properties. See DbSettings for the full list. No password is kept in
+ * the repository.
  */
 public final class DatabaseConnection {
 
-    private static final Properties PROPERTIES = new Properties();
+    private static final Properties PROPERTIES = DbSettings.load();
 
     static {
-        try (InputStream input = DatabaseConnection.class
-                .getClassLoader()
-                .getResourceAsStream("db.properties")) {
-
-            if (input == null) {
-                throw new IllegalStateException(
-                        "db.properties was not found in src/main/resources.");
-            }
-
-            PROPERTIES.load(input);
-
+        try {
             String driver = PROPERTIES.getProperty(
                     "db.driver",
                     "com.mysql.cj.jdbc.Driver");
 
             Class.forName(driver);
 
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             throw new ExceptionInInitializerError(e);
         }
     }
@@ -56,7 +47,9 @@ public final class DatabaseConnection {
 
         if (value == null || value.isBlank()) {
             throw new IllegalStateException(
-                    "Missing required database property: " + key);
+                    "Missing required database setting: " + key
+                    + ". Set the MARINA_DB_URL, MARINA_DB_USER and MARINA_DB_PASSWORD"
+                    + " environment variables (see db.properties.example).");
         }
 
         return value.trim();
