@@ -411,7 +411,11 @@ Modified by Max 8-22, removing JS Script and allowing this to function as a redi
             sessionStorage.setItem("moffatLoggedInFirstName", data.firstName || "Customer");
             sessionStorage.setItem("moffatLoggedInEmail", data.email || email);
 
-            window.location.href = data.redirect || "post_login.html";
+            const returnPage =
+    new URLSearchParams(window.location.search).get("return");
+
+window.location.href =
+    returnPage || data.redirect || "post_login.html";
 
         } catch (error) {
             passwordError.textContent =
@@ -422,6 +426,7 @@ Modified by Max 8-22, removing JS Script and allowing this to function as a redi
         }
     });
 </script>
+    <script src="js/user-nav.js"></script>
 </body>
 
 </html>

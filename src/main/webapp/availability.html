@@ -73,6 +73,156 @@ Modification by Max 8-22 to include layout image
 
     <!-- Universal Footer Stylesheet - load last -->
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/visual-consistency.css">
+
+    <style>
+        /* ========================================
+           INTERACTIVE MARINA IMAGE MAP
+        ======================================== */
+
+        .marina-map-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: #dbe7f7;
+        }
+
+        .marina-map-image {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .slip-hotspot {
+            position: absolute;
+            width: 7.6%;
+            height: 4.1%;
+            min-width: 30px;
+            min-height: 24px;
+
+            border: 2px solid transparent;
+            border-radius: 4px;
+
+            background: rgba(255, 255, 255, 0.02);
+            color: transparent;
+
+            cursor: pointer;
+
+            transition:
+                border-color 0.18s ease,
+                background 0.18s ease,
+                box-shadow 0.18s ease,
+                transform 0.18s ease;
+        }
+
+        .slip-hotspot.available:hover,
+        .slip-hotspot.available:focus-visible {
+            border-color: #237a4b;
+            background: rgba(35, 122, 75, 0.18);
+            box-shadow: 0 0 0 3px rgba(35, 122, 75, 0.14);
+            transform: scale(1.03);
+            outline: none;
+        }
+
+        .slip-hotspot.selected {
+            border-color: #eab53f;
+            background: rgba(234, 181, 63, 0.34);
+            box-shadow: 0 0 0 3px rgba(234, 181, 63, 0.18);
+        }
+
+        .slip-hotspot.reserved {
+            border-color: rgba(168, 50, 50, 0.42);
+            background: rgba(168, 50, 50, 0.12);
+            cursor: not-allowed;
+        }
+
+        .map-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin: 18px 0 0;
+        }
+
+        .map-legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .map-legend-swatch {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+        }
+
+        .map-legend-swatch.available {
+            border: 2px solid #237a4b;
+            background: rgba(35, 122, 75, 0.16);
+        }
+
+        .map-legend-swatch.reserved {
+            border: 2px solid #a83232;
+            background: rgba(168, 50, 50, 0.14);
+        }
+
+        .map-legend-swatch.selected {
+            border: 2px solid #eab53f;
+            background: rgba(234, 181, 63, 0.30);
+        }
+
+        .selected-slip-panel {
+            display: none;
+            margin-top: 22px;
+            padding: 22px;
+
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--gold);
+            border-radius: 6px;
+
+            background: var(--soft);
+        }
+
+        .selected-slip-panel.active {
+            display: block;
+        }
+
+        .selected-slip-panel h3 {
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .selected-slip-details {
+            margin-bottom: 0;
+        }
+
+        .selected-slip-panel .actions {
+            margin-top: 18px;
+        }
+
+        .map-instructions {
+            margin: 0 0 18px;
+            color: var(--muted);
+        }
+
+        @media (max-width: 700px) {
+            .slip-hotspot {
+                width: 8.5%;
+                height: 4.6%;
+            }
+
+            .map-legend {
+                gap: 12px;
+            }
+        }
+    </style>
+
 </head>
 
 
@@ -205,30 +355,85 @@ Modification by Max 8-22 to include layout image
                 </div>
 
             </div>
+            <p class="map-instructions">
+                Click an available slip directly on the marina map.
+                Red-highlighted slips are currently unavailable.
+            </p>
 
-            <img
-                src="images/marina_Slip_layout.png"
-                alt="Moffat Bay Marina slip layout showing Docks A, B, and C"
-                style="width: 100%; border-radius: 8px; border: 1px solid var(--border);"
+            <div
+                class="marina-map-wrapper"
+                id="marinaMap"
+                aria-label="Interactive Moffat Bay Marina slip map"
             >
+                <img
+                    src="images/marina_Slip_layout.png"
+                    alt="Moffat Bay Marina slip layout showing Docks A, B, and C"
+                    class="marina-map-image"
+                >
+            </div>
 
+            <div class="map-legend" aria-label="Slip status legend">
+                <span class="map-legend-item">
+                    <span class="map-legend-swatch available" aria-hidden="true"></span>
+                    Available
+                </span>
+
+                <span class="map-legend-item">
+                    <span class="map-legend-swatch reserved" aria-hidden="true"></span>
+                    Reserved
+                </span>
+
+                <span class="map-legend-item">
+                    <span class="map-legend-swatch selected" aria-hidden="true"></span>
+                    Selected
+                </span>
+            </div>
+
+            <div
+                class="selected-slip-panel"
+                id="selectedSlipPanel"
+                aria-live="polite"
+            >
+                <h3 id="selectedSlipTitle">
+                    Selected Slip
+                </h3>
+
+                <p
+                    class="selected-slip-details"
+                    id="selectedSlipDetails"
+                ></p>
+
+                <div class="actions">
+                    <a
+                        class="btn primary"
+                        id="continueReservation"
+                        href="reservation.html"
+                    >
+                        CONTINUE TO RESERVATION
+                    </a>
+
+                    <button
+                        class="btn secondary"
+                        id="clearSlipSelection"
+                        type="button"
+                    >
+                        CLEAR SELECTION
+                    </button>
+                </div>
+            </div>
             <div
                 class="notice info"
                 style="margin-top: 20px;"
             >
-
                 <strong>
-                    Prototype note:
+                    Interactive map:
                 </strong>
 
-                The layout image will be interactive and allow the
-                user to select a slip. Letting them know which
-                slips are taken. The implementation will require more time to
-                research and design a full, intuitive user
-                interface. For now, this is a prototype meant to
-                illustrate our goals to the client.
-
+                Select an available slip above to continue directly
+                to the reservation page. The selected slip number and
+                slip size will be carried into the reservation flow.
             </div>
+
 
         </section>
 
@@ -519,6 +724,335 @@ Modification by Max 8-22 to include layout image
 
 
 
+
+    <script>
+        /* ========================================
+           INTERACTIVE MARINA IMAGE MAP
+        ======================================== */
+
+        (function () {
+
+            const marinaMap =
+                document.getElementById("marinaMap");
+
+            const selectedPanel =
+                document.getElementById("selectedSlipPanel");
+
+            const selectedTitle =
+                document.getElementById("selectedSlipTitle");
+
+            const selectedDetails =
+                document.getElementById("selectedSlipDetails");
+
+            const continueButton =
+                document.getElementById("continueReservation");
+
+            const clearButton =
+                document.getElementById("clearSlipSelection");
+
+            if (!marinaMap) {
+                return;
+            }
+
+
+            /*
+             * The original source image is 836 x 692.
+             * These coordinates are converted to percentages so the
+             * clickable areas stay aligned when the image resizes.
+             */
+
+            const imageWidth = 836;
+            const imageHeight = 692;
+
+            const rowY = [
+                112, 143, 174, 205, 236, 267,
+                298, 329, 360, 391, 422, 453
+            ];
+
+            const dockColumns = {
+                A: {
+                    leftX: 162,
+                    rightX: 229
+                },
+
+                B: {
+                    leftX: 329,
+                    rightX: 396
+                },
+
+                C: {
+                    leftX: 492,
+                    rightX: 559
+                }
+            };
+
+
+            /*
+             * Prototype reserved locations.
+             *
+             * These are individual simulated positions so the image
+             * can demonstrate real interaction. Replace this Set with
+             * database-driven slip availability later.
+             */
+            const reservedSlips = new Set([
+                "A2",
+                "A5",
+                "A9",
+                "A14",
+                "A18",
+                "A22",
+
+                "B1",
+                "B6",
+                "B10",
+                "B13",
+                "B17",
+                "B21",
+                "B24",
+
+                "C3",
+                "C4",
+                "C8",
+                "C12",
+                "C15",
+                "C19",
+                "C23"
+            ]);
+
+
+            let selectedHotspot = null;
+
+
+            function slipSize(number) {
+
+                if (
+                    (number >= 1 && number <= 3) ||
+                    (number >= 13 && number <= 15)
+                ) {
+                    return 50;
+                }
+
+                if (
+                    (number >= 4 && number <= 7) ||
+                    (number >= 16 && number <= 19)
+                ) {
+                    return 40;
+                }
+
+                return 26;
+            }
+
+
+            function percent(value, total) {
+                return (value / total) * 100;
+            }
+
+
+            function createHotspot(
+                dock,
+                number,
+                x,
+                y
+            ) {
+
+                const slipName =
+                    dock + number;
+
+                const size =
+                    slipSize(number);
+
+                const reserved =
+                    reservedSlips.has(slipName);
+
+                const button =
+                    document.createElement("button");
+
+                button.type = "button";
+
+                button.className =
+                    "slip-hotspot " +
+                    (reserved
+                        ? "reserved"
+                        : "available");
+
+                button.style.left =
+                    percent(x, imageWidth) + "%";
+
+                button.style.top =
+                    percent(y, imageHeight) + "%";
+
+                button.setAttribute(
+                    "aria-label",
+                    slipName +
+                    ", " +
+                    size +
+                    " foot slip, " +
+                    (reserved
+                        ? "reserved"
+                        : "available")
+                );
+
+                button.title =
+                    slipName +
+                    " — " +
+                    size +
+                    " ft — " +
+                    (reserved
+                        ? "Reserved"
+                        : "Available");
+
+                if (reserved) {
+                    button.disabled = true;
+                }
+                else {
+                    button.addEventListener(
+                        "click",
+                        function () {
+                            selectSlip(
+                                button,
+                                slipName,
+                                size
+                            );
+                        }
+                    );
+                }
+
+                marinaMap.appendChild(button);
+            }
+
+
+            function selectSlip(
+                button,
+                slipName,
+                size
+            ) {
+
+                if (selectedHotspot) {
+                    selectedHotspot.classList.remove(
+                        "selected"
+                    );
+
+                    selectedHotspot.classList.add(
+                        "available"
+                    );
+                }
+
+                selectedHotspot =
+                    button;
+
+                button.classList.remove(
+                    "available"
+                );
+
+                button.classList.add(
+                    "selected"
+                );
+
+                selectedTitle.textContent =
+                    "Selected Slip " +
+                    slipName;
+
+                selectedDetails.textContent =
+                    slipName +
+                    " is a " +
+                    size +
+                    " ft slip. Continue to enter your reservation dates and complete your request.";
+
+                continueButton.href =
+                    "reservation.html?slip=" +
+                    encodeURIComponent(
+                        slipName
+                    ) +
+                    "&slipSize=" +
+                    encodeURIComponent(
+                        size
+                    );
+
+                selectedPanel.classList.add(
+                    "active"
+                );
+            }
+
+
+            function clearSelection() {
+
+                if (selectedHotspot) {
+                    selectedHotspot.classList.remove(
+                        "selected"
+                    );
+
+                    selectedHotspot.classList.add(
+                        "available"
+                    );
+                }
+
+                selectedHotspot =
+                    null;
+
+                continueButton.href =
+                    "reservation.html";
+
+                selectedPanel.classList.remove(
+                    "active"
+                );
+            }
+
+
+            /*
+             * Build all 72 slip hotspots from the actual
+             * positions shown in the supplied marina image.
+             */
+
+            Object.keys(
+                dockColumns
+            ).forEach(
+                function (dock) {
+
+                    const columns =
+                        dockColumns[dock];
+
+                    for (
+                        let row = 0;
+                        row < 12;
+                        row++
+                    ) {
+
+                        const y =
+                            rowY[row];
+
+                        const leftNumber =
+                            row + 1;
+
+                        const rightNumber =
+                            row + 13;
+
+                        createHotspot(
+                            dock,
+                            leftNumber,
+                            columns.leftX,
+                            y
+                        );
+
+                        createHotspot(
+                            dock,
+                            rightNumber,
+                            columns.rightX,
+                            y
+                        );
+                    }
+                }
+            );
+
+
+            clearButton.addEventListener(
+                "click",
+                clearSelection
+            );
+
+        })();
+    </script>
+
+<script src="js/user-nav.js"></script>
 </body>
 
 </html>

@@ -7,54 +7,120 @@
 
     <title>Moffat Bay Marina | Message Sent</title>
 
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="/footer.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Main Site Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/footer.css">
 </head>
 
 <body>
 
+    <!-- ========================================
+         HEADER / NAVIGATION
+    ======================================== -->
+    <header>
+        <div class="nav-container">
+
+            <a
+                class="brand"
+                href="index.html"
+                aria-label="Moffat Bay Marina home"
+            >
+                <span class="anchor-logo" aria-hidden="true">⚓</span>
+
+                <span>
+                    <span class="brand-name">MOFFAT BAY</span>
+                    <span class="brand-subtitle">MARINA</span>
+                </span>
+            </a>
+
+            <nav aria-label="Main navigation">
+                <ul>
+                    <li>
+                        <a href="index.html">HOME</a>
+                    </li>
+
+                    <li>
+                        <a href="about.html">ABOUT US</a>
+                    </li>
+
+                    <li>
+                        <a href="reservation.html">RESERVATIONS</a>
+                    </li>
+
+                    <li>
+                        <a href="login.html">LOGIN</a>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+    </header>
+
+
     <main>
 
-        <section class="page-hero">
-            <div class="hero-content">
 
-                <div class="eyebrow">
-                    MESSAGE SENT
-                </div>
 
-                <h1>
-                    Thank You for Contacting Us
-                </h1>
-
-                <div class="gold-line"></div>
-
-                <p>
-                    Your message has been received by
-                    Moffat Bay Marina.
-                </p>
-
-            </div>
-        </section>
-
+        <!-- ========================================
+             CONFIRMATION CARD
+        ======================================== -->
         <section class="section">
 
-            <div style="text-align: center;">
+            <div class="card center-card">
 
-                <h2>Thank You</h2>
+                <div class="icon-circle" aria-hidden="true">
+                    ✓
+                </div>
 
-                <div class="short-line" style="margin: 20px auto;"></div>
+                <div class="eyebrow">
+                    MESSAGE RECEIVED
+                </div>
+
+                <h2>
+                    You're All Set
+                </h2>
+
+                <div
+                    class="short-line"
+                    style="margin: 18px auto 24px;"
+                ></div>
 
                 <p>
-                    We appreciate you contacting Moffat Bay Marina.
-                    A member of our team can follow up using the
-                    contact information you provided.
+                    Thank you for getting in touch with Moffat Bay Marina.
+                    A member of our team can follow up using the contact
+                    information you provided.
                 </p>
 
-                <p style="margin-top: 30px;">
-                    <a href="/contact.html" class="btn btn-primary">
-                        RETURN TO CONTACT US
+                <div class="notice success">
+                    Your message was submitted successfully.
+                </div>
+
+                <div
+                    class="actions"
+                    style="justify-content: center;"
+                >
+                    <a
+                        href="about.html"
+                        class="btn btn-primary"
+                    >
+                        RETURN TO ABOUT US
                     </a>
-                </p>
+
+                    <a
+                        href="index.html"
+                        class="btn btn-secondary"
+                    >
+                        RETURN HOME
+                    </a>
+                </div>
 
             </div>
 
@@ -62,12 +128,17 @@
 
     </main>
 
+
+    <!-- ========================================
+         UNIVERSAL FOOTER
+    ======================================== -->
     <footer class="site-footer">
 
         <div class="footer-container">
 
             <div class="footer-item">
                 <div class="footer-icon" aria-hidden="true">📍</div>
+
                 <div>
                     <h3>VISIT US</h3>
                     <p>
@@ -79,6 +150,7 @@
 
             <div class="footer-item">
                 <div class="footer-icon" aria-hidden="true">📞</div>
+
                 <div>
                     <h3>CALL US</h3>
                     <p>
@@ -90,6 +162,7 @@
 
             <div class="footer-item">
                 <div class="footer-icon" aria-hidden="true">📡</div>
+
                 <div>
                     <h3>VHF CHANNEL</h3>
                     <p>
@@ -101,6 +174,7 @@
 
             <div class="footer-item">
                 <div class="footer-icon" aria-hidden="true">✉</div>
+
                 <div>
                     <h3>EMAIL US</h3>
                     <p>
@@ -123,6 +197,7 @@
 
     </footer>
 
+    <script src="js/user-nav.js"></script>
 </body>
 
 </html>

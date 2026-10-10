@@ -45,6 +45,7 @@ CSD460
 
     <!-- Universal Footer Stylesheet - load last -->
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/visual-consistency.css">
 </head>
 
 <body>
@@ -277,6 +278,11 @@ CSD460
 
 
                     <div class="item">
+                        <span class="label">Selected Slip</span>
+                        <span class="value" id="selectedSlip">No slip selected</span>
+                    </div>
+
+                    <div class="item">
 
                         <span class="label">
                             Required Slip Size
@@ -418,11 +424,6 @@ CSD460
 
 
     <script>
-
-        // Backend now lives on a different origin (Tailscale Funnel), not
-        // served from the same Tomcat as this page - every fetch needs the
-        // full URL plus credentials so the login session cookie goes along.
-        const API_BASE = "https://obsidianserver.tail969ab5.ts.net/MoffatBayMarina";
 
         /* ========================================
            SHARED RESERVATION PROTOTYPE FUNCTIONS
@@ -638,6 +639,9 @@ CSD460
                 const electricIncluded =
                     document.getElementById("electricIncluded");
 
+                const selectedSlip =
+                    document.getElementById("selectedSlip");
+
                 const slipSize =
                     document.getElementById("slipSize");
 
@@ -649,6 +653,17 @@ CSD460
                         "reservationMessage"
                     );
 
+
+
+                const query = new URLSearchParams(window.location.search);
+                const preferredSlip = query.get("slip");
+                const preferredSlipSize = Number(query.get("slipSize"));
+
+                if (preferredSlip) {
+                    selectedSlip.textContent =
+                        preferredSlip +
+                        (preferredSlipSize ? " (" + preferredSlipSize + " ft)" : "");
+                }
 
                 /*
                  * Prevent past check-in dates.
@@ -808,9 +823,9 @@ CSD460
                         submitButton.textContent = "CREATING...";
 
                         try {
-                            const response = await fetch(API_BASE + "/reservation", {
+                            const response = await fetch("reservation", {
                                 method: "POST",
-                                credentials: "include",
+                                credentials: "same-origin",
                                 headers: {
                                     "Content-Type": "application/json",
                                     "Accept": "application/json"
@@ -820,7 +835,8 @@ CSD460
                                     checkInDate: checkIn.value,
                                     departureDate: departureDate.value, // ADD field to body 
                                     expectedTerm: "MONTHLY",
-                                    electricIncluded: electricIncluded.checked // tells the server to add elec fee to monthly cost 
+                                    electricIncluded: electricIncluded.checked,
+                                    preferredSlip: preferredSlip || null
                                 })
                             });
 
@@ -904,6 +920,7 @@ CSD460
 
     </script>
 
+<script src="js/user-nav.js"></script>
 </body>
 
 </html>
