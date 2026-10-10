@@ -215,6 +215,14 @@ CSD460
                             required
                         >
 
+                        <div
+                            class="small"
+                            id="boatLengthLimit"
+                            style="margin-top: 6px;"
+                        >
+                            Maximum boat length: 50 ft
+                        </div>
+
                     </div>
 
 
@@ -616,6 +624,26 @@ CSD460
                 const boatLength =
                     document.getElementById("boatLength");
 
+                /*
+                 * Marina slips support boats up to 50 ft.
+                 * Prevent values above 50 from remaining in the field.
+                 */
+                boatLength.addEventListener("input", function () {
+                    const value = Number(boatLength.value);
+
+                    if (Number.isFinite(value) && value > 50) {
+                        boatLength.value = "50";
+                    }
+
+                    if (boatLength.value !== "" && Number(boatLength.value) > 50) {
+                        boatLength.setCustomValidity(
+                            "Boat length cannot exceed 50 feet."
+                        );
+                    } else {
+                        boatLength.setCustomValidity("");
+                    }
+                });
+
                 const checkIn =
                     document.getElementById("checkIn");
 					
@@ -793,6 +821,18 @@ CSD460
                         }
 
                         const length = Number(boatLength.value);
+
+                        if (length > 50) {
+                            boatLength.value = "50";
+                            boatLength.setCustomValidity(
+                                "Boat length cannot exceed 50 feet."
+                            );
+                            boatLength.reportValidity();
+                            return;
+                        }
+
+                        boatLength.setCustomValidity("");
+
                         const requiredSlip = requiredSlipSize(length);
 
                         if (!requiredSlip) {
