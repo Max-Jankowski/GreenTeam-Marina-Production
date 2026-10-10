@@ -87,23 +87,10 @@ public class SlipCapacityDemoData {
         }
     }
 
+    // Settings come from MARINA_DB_* environment variables or an optional local,
+    // uncommitted db.properties - see DbSettings. No password lives in the repo.
     private static Properties loadProperties() {
-        Properties props = new Properties();
-        try (InputStream in = SlipCapacityDemoData.class
-                .getClassLoader()
-                .getResourceAsStream("db.properties")) {
-
-            if (in == null) {
-                throw new IOException(
-                    "db.properties not found on the classpath. "
-                    + "Copy the template into your resources folder first.");
-            }
-            props.load(in);
-
-        } catch (IOException e) {
-            throw new RuntimeException("Could not load db.properties", e);
-        }
-        return props;
+        return com.moffatbaymarina.config.DbSettings.load();
     }
 
     private static int findFiftyFootSlipTypeId(Connection conn) throws SQLException {

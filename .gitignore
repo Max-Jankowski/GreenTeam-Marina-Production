@@ -1,1 +1,8 @@
 target/
+
+# Database credentials and other private config - never commit these
+**/src/main/resources/db.properties
+*.local.properties
+.env
+.env.*
+*.war
