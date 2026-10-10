@@ -45,6 +45,7 @@ CSD460
 
     <!-- Universal Footer Stylesheet - load last -->
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/visual-consistency.css">
 </head>
 
 <body>
@@ -153,7 +154,6 @@ CSD460
             <form
                 id="reservationForm"
                 novalidate
-				hidden
             >
 
                 <div class="grid">
@@ -171,7 +171,6 @@ CSD460
                             id="email"
                             type="email"
                             placeholder="customer@example.com"
-							readonly
                             required
                         >
 
@@ -191,7 +190,6 @@ CSD460
                             id="boatName"
                             type="text"
                             placeholder="Sea Explorer"
-							readonly
                             required
                         >
 
@@ -214,7 +212,6 @@ CSD460
                             max="50"
                             step="0.1"
                             placeholder="34"
-							readonly
                             required
                         >
 
@@ -279,6 +276,11 @@ CSD460
  
                     </div>
 
+
+                    <div class="item">
+                        <span class="label">Selected Slip</span>
+                        <span class="value" id="selectedSlip">No slip selected</span>
+                    </div>
 
                     <div class="item">
 
@@ -422,11 +424,6 @@ CSD460
 
 
     <script>
-
-        // Backend now lives on a different origin (Tailscale Funnel), not
-        // served from the same Tomcat as this page - every fetch needs the
-        // full URL plus credentials so the login session cookie goes along.
-        const API_BASE = "https://obsidianserver.tail969ab5.ts.net/MoffatBayMarina";
 
         /* ========================================
            SHARED RESERVATION PROTOTYPE FUNCTIONS
@@ -616,33 +613,8 @@ CSD460
 
         document.addEventListener(
             "DOMContentLoaded",
-           async function () {
-try {
-    const authResponse = await fetch(API_BASE + "/current-user", {
-        method: "GET",
-        credentials: "include",
-        cache: "no-store",
-        headers: {
-            "Accept": "application/json"
-        }
-    });
+            function () {
 
-    const authData = await authResponse.json();
-
-    if (!authResponse.ok || !authData.ok) {
-        window.location.href =
-            "login.html?return=" +
-            encodeURIComponent("reservation.html");
-        return;
-    }
-
-} catch (error) {
-    console.error("Unable to verify customer session:", error);
-    window.location.href =
-        "login.html?return=" +
-        encodeURIComponent("reservation.html");
-    return;
-}
                 const form =
                     document.getElementById(
                         "reservationForm"
@@ -667,6 +639,9 @@ try {
                 const electricIncluded =
                     document.getElementById("electricIncluded");
 
+                const selectedSlip =
+                    document.getElementById("selectedSlip");
+
                 const slipSize =
                     document.getElementById("slipSize");
 
@@ -678,6 +653,17 @@ try {
                         "reservationMessage"
                     );
 
+
+
+                const query = new URLSearchParams(window.location.search);
+                const preferredSlip = query.get("slip");
+                const preferredSlipSize = Number(query.get("slipSize"));
+
+                if (preferredSlip) {
+                    selectedSlip.textContent =
+                        preferredSlip +
+                        (preferredSlipSize ? " (" + preferredSlipSize + " ft)" : "");
+                }
 
                 /*
                  * Prevent past check-in dates.
@@ -700,46 +686,60 @@ try {
                  * Load registration information when
                  * registration was completed previously.
                  */
-                 async function loadRegistration() {
-    try {
-        const response = await fetch(API_BASE + "/account-info", {
-            method: "GET",
-            credentials: "include",
-            cache: "no-store",
-            headers: {
-                "Accept": "application/json"
-            }
-        });
+                function loadRegistration() {
 
-        const data = await response.json();
+                    let customer = null;
 
-        if (!response.ok || !data.ok) {
-            if (response.status === 401) {
-                window.location.href =
-                    "login.html?return=" +
-                    encodeURIComponent("reservation.html");
-            }
-            return;
-        }
+                    try {
+                        customer = JSON.parse(
+                            localStorage.getItem(
+                                "moffatBayCustomer"
+                            )
+                        );
+                    }
+                    catch (error) {}
 
-        email.value = sessionStorage.getItem("moffatLoggedInEmail") || "";
 
-        boatName.value =
-            data.boatName || "";
+                    if (customer) {
 
-        boatLength.value =
-            data.boatSize == null ? "" : data.boatSize;
+                        email.value =
+                            customer.email || "";
 
-        updateEstimate();
-		form.hidden = false;
+                        if (customer.boat) {
+                            boatName.value =
+                                customer.boat.name || "";
 
-    } catch (error) {
-        console.error(
-            "Unable to load customer reservation information:",
-            error
-        );
-    }
-}
+                            boatLength.value =
+                                customer.boat.length || "";
+                        }
+                    }
+
+
+                    try {
+                        const prototypeCustomer =
+                            JSON.parse(
+                                localStorage.getItem(
+                                    "moffatBayPrototypeCustomer"
+                                )
+                            );
+
+                        if (
+                            !customer &&
+                            prototypeCustomer
+                        ) {
+                            email.value =
+                                prototypeCustomer.email || "";
+
+                            boatName.value =
+                                prototypeCustomer.boatName || "";
+
+                            boatLength.value =
+                                prototypeCustomer.boatLength || "";
+                        }
+                    }
+                    catch (error) {}
+                }
+
 
                 /*
                  * Update calculated slip size and price.
@@ -823,9 +823,9 @@ try {
                         submitButton.textContent = "CREATING...";
 
                         try {
-                            const response = await fetch(API_BASE + "/reservation", {
+                            const response = await fetch("reservation", {
                                 method: "POST",
-                                credentials: "include",
+                                credentials: "same-origin",
                                 headers: {
                                     "Content-Type": "application/json",
                                     "Accept": "application/json"
@@ -835,7 +835,8 @@ try {
                                     checkInDate: checkIn.value,
                                     departureDate: departureDate.value, // ADD field to body 
                                     expectedTerm: "MONTHLY",
-                                    electricIncluded: electricIncluded.checked // tells the server to add elec fee to monthly cost 
+                                    electricIncluded: electricIncluded.checked,
+                                    preferredSlip: preferredSlip || null
                                 })
                             });
 
@@ -911,13 +912,15 @@ try {
                     }
                 );
 
-               await loadRegistration();
-			   
-			               }
+
+                loadRegistration();
+                updateEstimate();
+            }
         );
 
     </script>
 
+<script src="js/user-nav.js"></script>
 </body>
 
 </html>
