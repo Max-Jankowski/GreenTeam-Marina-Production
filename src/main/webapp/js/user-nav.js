@@ -26,16 +26,22 @@ Shared authenticated navigation
             }
 
             const data = await response.json();
-            return data && data.ok ? data : null;
+
+            if (!data || !data.ok) {
+                return null;
+            }
+
+            return data;
         } catch (error) {
             console.error("Unable to check login status:", error);
             return null;
         }
     }
 
+
     async function logout() {
         try {
-            const response = await fetch(API_BASE + "/logout", {
+            await fetch(API_BASE + "/logout", {
                 method: "POST",
                 credentials: "include",
                 cache: "no-store",
@@ -43,10 +49,6 @@ Shared authenticated navigation
                     "Accept": "application/json"
                 }
             });
-
-            if (!response.ok) {
-                console.error("Logout request failed:", response.status);
-            }
         } catch (error) {
             console.error("Unable to contact logout service:", error);
         }
@@ -60,8 +62,11 @@ Shared authenticated navigation
         window.location.href = "index.html";
     }
 
-    function createLink(text, href, id) {
+
+    function createNavItem(text, href, id) {
+        const li = document.createElement("li");
         const link = document.createElement("a");
+
         link.textContent = text;
         link.href = href;
 
@@ -69,54 +74,48 @@ Shared authenticated navigation
             link.id = id;
         }
 
-        return link;
+        li.appendChild(link);
+
+        return li;
     }
 
-    function appendLink(nav, list, text, href, id) {
-        const link = createLink(text, href, id);
-
-        if (list) {
-            const li = document.createElement("li");
-            li.appendChild(link);
-            list.appendChild(li);
-        } else {
-            nav.appendChild(link);
-        }
-
-        return link;
-    }
-
-    function hasLink(nav, text) {
-        return Array.from(nav.querySelectorAll("a")).some(function (link) {
-            return link.textContent.trim().toUpperCase() === text;
-        });
-    }
-
-    function removeSignedOutLinks(nav) {
-        Array.from(nav.querySelectorAll("a")).forEach(function (link) {
-            const text = link.textContent.trim().toUpperCase();
-
-            if (text === "LOGIN" || text === "REGISTER") {
-                const li = link.closest("li");
-
-                if (li) {
-                    li.remove();
-                } else {
-                    link.remove();
-                }
-            }
-        });
-    }
 
     function updateNavigation(user) {
         const nav = document.querySelector(
             'nav[aria-label="Main navigation"]'
         );
 
-        if (!nav || !user) {
+        if (!nav) {
             return;
         }
 
+        const list = nav.querySelector("ul");
+
+        /*
+         * Some older pages may not use a <ul>.
+         * Leave those pages unchanged rather than breaking them.
+         */
+        if (!list) {
+            return;
+        }
+
+        const links = Array.from(
+            list.querySelectorAll("a")
+        );
+
+        if (!user) {
+            /*
+             * Signed-out visitors keep the existing public navbar.
+             */
+            return;
+        }
+
+
+        /*
+         * Store display-only account information for pages
+         * that want to show the customer's name/email.
+         * The server-side session is still the source of truth.
+         */
         if (user.firstName) {
             sessionStorage.setItem(
                 "moffatLoggedInFirstName",
@@ -131,48 +130,83 @@ Shared authenticated navigation
             );
         }
 
-        removeSignedOutLinks(nav);
 
-        const list = nav.querySelector("ul");
+        /*
+         * Hide LOGIN and REGISTER whenever the server confirms
+         * that the customer is already authenticated.
+         */
+        links.forEach(function (link) {
+            const text =
+                link.textContent.trim().toUpperCase();
 
-        if (!hasLink(nav, "MY ACCOUNT")) {
-            appendLink(
-                nav,
-                list,
-                "MY ACCOUNT",
-                "post_login.html"
+            if (text === "LOGIN" || text === "REGISTER") {
+                const item = link.closest("li");
+
+                if (item) {
+                    item.remove();
+                } else {
+                    link.remove();
+                }
+            }
+        });
+
+
+        /*
+         * Add MY ACCOUNT if it is not already present.
+         */
+        const hasAccount = Array.from(
+            list.querySelectorAll("a")
+        ).some(function (link) {
+            return (
+                link.textContent.trim().toUpperCase() ===
+                "MY ACCOUNT"
+            );
+        });
+
+        if (!hasAccount) {
+            list.appendChild(
+                createNavItem(
+                    "MY ACCOUNT",
+                    "post_login.html"
+                )
             );
         }
 
+
+        /*
+         * Add LOGOUT if it is not already present.
+         */
         let logoutLink =
             document.getElementById("logoutLink");
 
         if (!logoutLink) {
-            logoutLink = appendLink(
-                nav,
-                list,
+            const logoutItem = createNavItem(
                 "LOGOUT",
                 "#",
                 "logoutLink"
             );
-        } else {
-            logoutLink.href = "#";
+
+            list.appendChild(logoutItem);
+
+            logoutLink =
+                logoutItem.querySelector("a");
         }
 
-        if (logoutLink.dataset.logoutBound === "true") {
-            return;
-        }
 
-        logoutLink.dataset.logoutBound = "true";
-
+        /*
+         * Only the LOGOUT link ends the login session.
+         * HOME and all other links simply navigate normally.
+         */
         logoutLink.addEventListener(
             "click",
             function (event) {
                 event.preventDefault();
                 logout();
-            }
+            },
+            { once: true }
         );
     }
+
 
     document.addEventListener(
         "DOMContentLoaded",

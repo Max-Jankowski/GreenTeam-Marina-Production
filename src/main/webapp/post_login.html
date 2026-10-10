@@ -146,7 +146,7 @@ Max Jankowski
 
                     <li>
                         <a
-                            href="index.html"
+                            href="#" 
                             id="logoutLink"
                         >
                             LOGOUT
@@ -390,17 +390,10 @@ Max Jankowski
                 welcomeName.textContent = "Customer";
             }
         }
-
-        const logoutLink = document.getElementById("logoutLink");
-        if (logoutLink) {
-            logoutLink.addEventListener("click", function () {
-                sessionStorage.removeItem("moffatLoggedInFirstName");
-                sessionStorage.removeItem("moffatLoggedInEmail");
-            });
-        }
-    });
+});
 </script>
 
+    <script src="js/user-nav.js"></script>
 </body>
 
 </html>
