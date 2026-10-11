@@ -99,10 +99,7 @@ Modification by Max 8-22 to include layout image
 
         .slip-hotspot {
             position: absolute;
-            width: 7.6%;
-            height: 4.1%;
-            min-width: 30px;
-            min-height: 24px;
+            padding: 0;
 
             border: 2px solid transparent;
             border-radius: 4px;
@@ -212,10 +209,6 @@ Modification by Max 8-22 to include layout image
         }
 
         @media (max-width: 700px) {
-            .slip-hotspot {
-                width: 8.5%;
-                height: 4.6%;
-            }
 
             .map-legend {
                 gap: 12px;
@@ -697,6 +690,15 @@ Modification by Max 8-22 to include layout image
 
         (function () {
 
+            /*
+             * Interactive behavior is preserved:
+             * - Available slips are clickable.
+             * - Reserved slips are disabled.
+             * - Selected slips are highlighted.
+             * - Continue passes slip + slipSize to reservation.html.
+             * - Clear Selection resets the map.
+             */
+
             const marinaMap =
                 document.getElementById("marinaMap");
 
@@ -728,28 +730,36 @@ Modification by Max 8-22 to include layout image
 
             const imageWidth = 836;
             const imageHeight = 692;
-
-            const rowY = [
-                112, 143, 174, 205, 236, 267,
-                298, 329, 360, 391, 422, 453
-            ];
-
-            const dockColumns = {
+            /*
+             * Hotspot geometry is based directly on the original
+             * 836 x 692 marina diagram. Each dock begins at a
+             * different vertical position, so each dock needs its
+             * own starting Y coordinate.
+             */
+            const dockLayout = {
                 A: {
-                    leftX: 162,
-                    rightX: 229
+                    leftX: 167,
+                    rightX: 220,
+                    startY: 115
                 },
 
                 B: {
-                    leftX: 329,
-                    rightX: 396
+                    leftX: 337,
+                    rightX: 387,
+                    startY: 146
                 },
 
                 C: {
-                    leftX: 492,
-                    rightX: 559
+                    leftX: 497,
+                    rightX: 550,
+                    startY: 167
                 }
             };
+
+            const hotspotWidth = 50;
+            const hotspotHeight = 27;
+            const rowSpacing = 31;
+
 
 
             /*
@@ -810,6 +820,25 @@ Modification by Max 8-22 to include layout image
 
             function percent(value, total) {
                 return (value / total) * 100;
+            }
+
+
+            function applyHotspotGeometry(
+                button,
+                x,
+                y
+            ) {
+                applyHotspotGeometry(
+                    button,
+                    x,
+                    y
+                );
+
+                button.style.width =
+                    percent(hotspotWidth, imageWidth) + "%";
+
+                button.style.height =
+                    percent(hotspotHeight, imageHeight) + "%";
             }
 
 
@@ -967,14 +996,13 @@ Modification by Max 8-22 to include layout image
              * Build all 72 slip hotspots from the actual
              * positions shown in the supplied marina image.
              */
-
             Object.keys(
-                dockColumns
+                dockLayout
             ).forEach(
                 function (dock) {
 
-                    const columns =
-                        dockColumns[dock];
+                    const layout =
+                        dockLayout[dock];
 
                     for (
                         let row = 0;
@@ -983,7 +1011,8 @@ Modification by Max 8-22 to include layout image
                     ) {
 
                         const y =
-                            rowY[row];
+                            layout.startY +
+                            (row * rowSpacing);
 
                         const leftNumber =
                             row + 1;
@@ -994,14 +1023,14 @@ Modification by Max 8-22 to include layout image
                         createHotspot(
                             dock,
                             leftNumber,
-                            columns.leftX,
+                            layout.leftX,
                             y
                         );
 
                         createHotspot(
                             dock,
                             rightNumber,
-                            columns.rightX,
+                            layout.rightX,
                             y
                         );
                     }
