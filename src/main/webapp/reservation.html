@@ -288,6 +288,18 @@ CSD460
                     <div class="item">
                         <span class="label">Selected Slip</span>
                         <span class="value" id="selectedSlip">No slip selected</span>
+                        <input
+                            id="preferredSlip"
+                            name="preferredSlip"
+                            type="hidden"
+                            value=""
+                        >
+                        <input
+                            id="preferredSlipSize"
+                            name="preferredSlipSize"
+                            type="hidden"
+                            value=""
+                        >
                     </div>
 
                     <div class="item">
@@ -419,6 +431,9 @@ CSD460
 
 
     <script>
+
+        const API_BASE =
+            "https://obsidianserver.tail969ab5.ts.net/MoffatBayMarina";
 
         /* ========================================
            SHARED RESERVATION  FUNCTIONS
@@ -657,6 +672,12 @@ CSD460
                 const selectedSlip =
                     document.getElementById("selectedSlip");
 
+                const preferredSlipInput =
+                    document.getElementById("preferredSlip");
+
+                const preferredSlipSizeInput =
+                    document.getElementById("preferredSlipSize");
+
                 const slipSize =
                     document.getElementById("slipSize");
 
@@ -669,14 +690,60 @@ CSD460
                     );
 
 
-                const query = new URLSearchParams(window.location.search);
-                const preferredSlip = query.get("slip");
-                const preferredSlipSize = Number(query.get("slipSize"));
+                const query =
+                    new URLSearchParams(
+                        window.location.search
+                    );
 
-                if (preferredSlip) {
+                const preferredSlip =
+                    String(
+                        query.get("slip") || ""
+                    )
+                        .trim()
+                        .toUpperCase();
+
+                const preferredSlipSize =
+                    Number(
+                        query.get("slipSize")
+                    );
+
+                const validSlip =
+                    /^[ABC](?:[1-9]|1[0-9]|2[0-4])$/.test(
+                        preferredSlip
+                    );
+
+                const validSlipSize =
+                    [26, 40, 50].includes(
+                        preferredSlipSize
+                    );
+
+                if (
+                    validSlip &&
+                    validSlipSize
+                ) {
                     selectedSlip.textContent =
                         preferredSlip +
-                        (preferredSlipSize ? " (" + preferredSlipSize + " ft)" : "");
+                        " (" +
+                        preferredSlipSize +
+                        " ft)";
+
+                    preferredSlipInput.value =
+                        preferredSlip;
+
+                    preferredSlipSizeInput.value =
+                        String(
+                            preferredSlipSize
+                        );
+                }
+                else {
+                    selectedSlip.textContent =
+                        "No slip selected";
+
+                    preferredSlipInput.value =
+                        "";
+
+                    preferredSlipSizeInput.value =
+                        "";
                 }
 
                 /*
@@ -727,32 +794,7 @@ CSD460
                                 customer.boat.length || "";
                         }
                     }
-
-
-                    try {
-                        const prototypeCustomer =
-                            JSON.parse(
-                                localStorage.getItem(
-                                    "moffatBayPrototypeCustomer"
-                                )
-                            );
-
-                        if (
-                            !customer &&
-                            prototypeCustomer
-                        ) {
-                            email.value =
-                                prototypeCustomer.email || "";
-
-                            boatName.value =
-                                prototypeCustomer.boatName || "";
-
-                            boatLength.value =
-                                prototypeCustomer.boatLength || "";
-                        }
-                    }
-                    catch (error) {}
-                }
+}
 
 
                 /*
@@ -784,9 +826,35 @@ CSD460
                     slipSize.textContent =
                         requiredSlip + " ft";
 
-                    cost.textContent = // changed as it now padded the checkbox state to only add elec when selected, Max 9-10
+                    if (
+                        validSlip &&
+                        validSlipSize &&
+                        length > preferredSlipSize
+                    ) {
+                        message.innerHTML =
+                            '<div class="notice warning">' +
+                                "<strong>Selected slip is too small.</strong> " +
+                                "Slip " +
+                                escapeHTML(preferredSlip) +
+                                " is a " +
+                                preferredSlipSize +
+                                " ft slip. Please choose a larger slip from the Availability page." +
+                            "</div>";
+                    }
+                    else if (
+                        message.querySelector(
+                            ".notice.warning"
+                        )
+                    ) {
+                        message.innerHTML = "";
+                    }
+
+                    cost.textContent =
                         "$" +
-                        monthlyCost(length, electricIncluded.checked)
+                        monthlyCost(
+                            length,
+                            electricIncluded.checked
+                        )
                             .toFixed(2) +
                         "/month";
                 }
@@ -833,7 +901,25 @@ CSD460
 
                         boatLength.setCustomValidity("");
 
-                        const requiredSlip = requiredSlipSize(length);
+                        const requiredSlip =
+                            requiredSlipSize(length);
+
+                        if (
+                            validSlip &&
+                            validSlipSize &&
+                            length > preferredSlipSize
+                        ) {
+                            message.innerHTML =
+                                '<div class="notice warning">' +
+                                    "<strong>Selected slip is too small.</strong> " +
+                                    "Slip " +
+                                    escapeHTML(preferredSlip) +
+                                    " is a " +
+                                    preferredSlipSize +
+                                    " ft slip. Return to Availability and choose a larger slip." +
+                                "</div>";
+                            return;
+                        }
 
                         if (!requiredSlip) {
                             message.innerHTML =
@@ -849,9 +935,9 @@ CSD460
                         submitButton.textContent = "CREATING...";
 
                         try {
-                            const response = await fetch("reservation", {
+                            const response = await fetch(API_BASE + "/reservation", {
                                 method: "POST",
-                                credentials: "same-origin",
+                                credentials: "include",
                                 headers: {
                                     "Content-Type": "application/json",
                                     "Accept": "application/json"
@@ -862,7 +948,16 @@ CSD460
                                     departureDate: departureDate.value, // ADD field to body 
                                     expectedTerm: "MONTHLY",
                                     electricIncluded: electricIncluded.checked,
-                                    preferredSlip: preferredSlip || null
+                                    preferredSlip:
+                                        validSlip &&
+                                        validSlipSize
+                                            ? preferredSlip
+                                            : null,
+                                    preferredSlipSize:
+                                        validSlip &&
+                                        validSlipSize
+                                            ? preferredSlipSize
+                                            : null
                                 })
                             });
 

@@ -134,7 +134,15 @@ Modification by Max 8-22 to include layout image
         .slip-hotspot.reserved {
             border-color: rgba(168, 50, 50, 0.42);
             background: rgba(168, 50, 50, 0.12);
-            cursor: not-allowed;
+            cursor: pointer;
+        }
+
+        .slip-hotspot.reserved:hover,
+        .slip-hotspot.reserved:focus-visible {
+            border-color: #a83232;
+            background: rgba(168, 50, 50, 0.20);
+            box-shadow: 0 0 0 3px rgba(168, 50, 50, 0.12);
+            outline: none;
         }
 
         .map-legend {
@@ -682,22 +690,12 @@ Modification by Max 8-22 to include layout image
 
     </script>
 
-
     <script>
         /* ========================================
            INTERACTIVE MARINA IMAGE MAP
         ======================================== */
 
         (function () {
-
-            /*
-             * Interactive behavior is preserved:
-             * - Available slips are clickable.
-             * - Reserved slips are disabled.
-             * - Selected slips are highlighted.
-             * - Continue passes slip + slipSize to reservation.html.
-             * - Clear Selection resets the map.
-             */
 
             const marinaMap =
                 document.getElementById("marinaMap");
@@ -717,25 +715,26 @@ Modification by Max 8-22 to include layout image
             const clearButton =
                 document.getElementById("clearSlipSelection");
 
-            if (!marinaMap) {
+            if (
+                !marinaMap ||
+                !selectedPanel ||
+                !selectedTitle ||
+                !selectedDetails ||
+                !continueButton ||
+                !clearButton
+            ) {
                 return;
             }
 
 
             /*
-             * The original source image is 836 x 692.
-             * These coordinates are converted to percentages so the
-             * clickable areas stay aligned when the image resizes.
+             * Original marina image dimensions.
+             * Percent-based placement keeps the buttons aligned
+             * while the image resizes.
              */
-
             const imageWidth = 836;
             const imageHeight = 692;
-            /*
-             * Hotspot geometry is based directly on the original
-             * 836 x 692 marina diagram. Each dock begins at a
-             * different vertical position, so each dock needs its
-             * own starting Y coordinate.
-             */
+
             const dockLayout = {
                 A: {
                     leftX: 167,
@@ -761,13 +760,11 @@ Modification by Max 8-22 to include layout image
             const rowSpacing = 31;
 
 
-
             /*
-             *  reserved locations.
-             *
-             * These are individual simulated positions so the image
-             * can demonstrate real interaction. Replace this Set with
-             * database-driven slip availability later.
+             * Current unavailable slips.
+             * Available slips go directly to reservation.html.
+             * Reserved slips stay interactive and explain that
+             * another slip must be selected.
              */
             const reservedSlips = new Set([
                 "A2",
@@ -793,9 +790,6 @@ Modification by Max 8-22 to include layout image
                 "C19",
                 "C23"
             ]);
-
-
-            let selectedHotspot = null;
 
 
             function slipSize(number) {
@@ -828,17 +822,62 @@ Modification by Max 8-22 to include layout image
                 x,
                 y
             ) {
-                applyHotspotGeometry(
-                    button,
-                    x,
-                    y
-                );
+                button.style.left =
+                    percent(x, imageWidth) + "%";
+
+                button.style.top =
+                    percent(y, imageHeight) + "%";
 
                 button.style.width =
                     percent(hotspotWidth, imageWidth) + "%";
 
                 button.style.height =
                     percent(hotspotHeight, imageHeight) + "%";
+            }
+
+
+            function showReservedSlip(
+                slipName,
+                size
+            ) {
+                selectedTitle.textContent =
+                    "Slip " +
+                    slipName +
+                    " is Reserved";
+
+                selectedDetails.textContent =
+                    slipName +
+                    " is a " +
+                    size +
+                    " ft slip and is currently unavailable. Please select another slip.";
+
+                continueButton.style.display =
+                    "none";
+
+                selectedPanel.classList.add(
+                    "active"
+                );
+
+                selectedPanel.scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest"
+                });
+            }
+
+
+            function goToReservation(
+                slipName,
+                size
+            ) {
+                window.location.href =
+                    "reservation.html?slip=" +
+                    encodeURIComponent(
+                        slipName
+                    ) +
+                    "&slipSize=" +
+                    encodeURIComponent(
+                        size
+                    );
             }
 
 
@@ -856,24 +895,31 @@ Modification by Max 8-22 to include layout image
                     slipSize(number);
 
                 const reserved =
-                    reservedSlips.has(slipName);
+                    reservedSlips.has(
+                        slipName
+                    );
 
                 const button =
-                    document.createElement("button");
+                    document.createElement(
+                        "button"
+                    );
 
-                button.type = "button";
+                button.type =
+                    "button";
 
                 button.className =
                     "slip-hotspot " +
-                    (reserved
-                        ? "reserved"
-                        : "available");
+                    (
+                        reserved
+                            ? "reserved"
+                            : "available"
+                    );
 
-                button.style.left =
-                    percent(x, imageWidth) + "%";
-
-                button.style.top =
-                    percent(y, imageHeight) + "%";
+                applyHotspotGeometry(
+                    button,
+                    x,
+                    y
+                );
 
                 button.setAttribute(
                     "aria-label",
@@ -881,9 +927,11 @@ Modification by Max 8-22 to include layout image
                     ", " +
                     size +
                     " foot slip, " +
-                    (reserved
-                        ? "reserved"
-                        : "available")
+                    (
+                        reserved
+                            ? "reserved"
+                            : "available"
+                    )
                 );
 
                 button.title =
@@ -891,110 +939,41 @@ Modification by Max 8-22 to include layout image
                     " — " +
                     size +
                     " ft — " +
-                    (reserved
-                        ? "Reserved"
-                        : "Available");
+                    (
+                        reserved
+                            ? "Reserved"
+                            : "Available"
+                    );
 
-                if (reserved) {
-                    button.disabled = true;
-                }
-                else {
-                    button.addEventListener(
-                        "click",
-                        function () {
-                            selectSlip(
-                                button,
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        if (reserved) {
+                            showReservedSlip(
                                 slipName,
                                 size
                             );
+
+                            return;
                         }
-                    );
-                }
 
-                marinaMap.appendChild(button);
-            }
-
-
-            function selectSlip(
-                button,
-                slipName,
-                size
-            ) {
-
-                if (selectedHotspot) {
-                    selectedHotspot.classList.remove(
-                        "selected"
-                    );
-
-                    selectedHotspot.classList.add(
-                        "available"
-                    );
-                }
-
-                selectedHotspot =
-                    button;
-
-                button.classList.remove(
-                    "available"
+                        goToReservation(
+                            slipName,
+                            size
+                        );
+                    }
                 );
 
-                button.classList.add(
-                    "selected"
-                );
-
-                selectedTitle.textContent =
-                    "Selected Slip " +
-                    slipName;
-
-                selectedDetails.textContent =
-                    slipName +
-                    " is a " +
-                    size +
-                    " ft slip. Continue to enter your reservation dates and complete your request.";
-
-                continueButton.href =
-                    "reservation.html?slip=" +
-                    encodeURIComponent(
-                        slipName
-                    ) +
-                    "&slipSize=" +
-                    encodeURIComponent(
-                        size
-                    );
-
-                selectedPanel.classList.add(
-                    "active"
-                );
-            }
-
-
-            function clearSelection() {
-
-                if (selectedHotspot) {
-                    selectedHotspot.classList.remove(
-                        "selected"
-                    );
-
-                    selectedHotspot.classList.add(
-                        "available"
-                    );
-                }
-
-                selectedHotspot =
-                    null;
-
-                continueButton.href =
-                    "reservation.html";
-
-                selectedPanel.classList.remove(
-                    "active"
+                marinaMap.appendChild(
+                    button
                 );
             }
 
 
             /*
-             * Build all 72 slip hotspots from the actual
-             * positions shown in the supplied marina image.
+             * Build all 72 slips:
+             * A1-A24, B1-B24, C1-C24.
              */
             Object.keys(
                 dockLayout
@@ -1012,7 +991,10 @@ Modification by Max 8-22 to include layout image
 
                         const y =
                             layout.startY +
-                            (row * rowSpacing);
+                            (
+                                row *
+                                rowSpacing
+                            );
 
                         const leftNumber =
                             row + 1;
@@ -1040,7 +1022,18 @@ Modification by Max 8-22 to include layout image
 
             clearButton.addEventListener(
                 "click",
-                clearSelection
+                function () {
+
+                    selectedPanel.classList.remove(
+                        "active"
+                    );
+
+                    continueButton.style.display =
+                        "";
+
+                    continueButton.href =
+                        "reservation.html";
+                }
             );
 
         })();
